@@ -14,3 +14,25 @@ export const session = sqliteTable('session', {
 		.references(() => user.id),
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
+
+export const questão = sqliteTable('questão', {
+	id: integer().primaryKey({ autoIncrement: true }),
+	enunciado: text().notNull(),
+	alternativa1: text().notNull(),
+	alternativa2: text().notNull(),
+	alternativa3: text().notNull(),
+	alternativa4: text().notNull(),
+	alternativa5: text().notNull(),
+	resposta: integer().notNull()
+});
+
+export const categoria = sqliteTable('categoria', {
+	id: integer().primaryKey({ autoIncrement: true }),
+	nome: text().notNull()
+});
+
+export const questão_categoria = sqliteTable('questão_categoria', {
+	id: integer().primaryKey({ autoIncrement: true }),
+	id_questão: integer().notNull().references(() => questão.id),
+	id_categoria: integer().notNull().references(() => categoria.id)
+});
