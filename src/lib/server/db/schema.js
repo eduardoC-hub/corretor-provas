@@ -28,7 +28,7 @@ export const questão = sqliteTable('questão', {
 
 export const categoria = sqliteTable('categoria', {
 	id: integer().primaryKey({ autoIncrement: true }),
-	nome: text().notNull()
+	nome: text().notNull().unique()
 });
 
 export const questão_categoria = sqliteTable('questão_categoria', {
