@@ -1,38 +1,43 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
+// Tabela de usuários
 export const user = sqliteTable('user', {
-	id: text('id').primaryKey(),
-	age: integer('age'),
-	username: text('username').notNull().unique(),
-	passwordHash: text('password_hash').notNull()
+  id: text('id').primaryKey(),
+  age: integer('age'),
+  username: text('username').notNull().unique(),
+  passwordHash: text('password_hash').notNull()
 });
 
+// Tabela de sessões
 export const session = sqliteTable('session', {
-	id: text('id').primaryKey(),
-	userId: text('user_id')
-		.notNull()
-		.references(() => user.id),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
-export const questão = sqliteTable('questão', {
-	id: integer().primaryKey({ autoIncrement: true }),
-	enunciado: text().notNull(),
-	alternativa1: text().notNull(),
-	alternativa2: text().notNull(),
-	alternativa3: text().notNull(),
-	alternativa4: text().notNull(),
-	alternativa5: text().notNull(),
-	resposta: integer().notNull()
+// Tabela de questões
+export const questao = sqliteTable('questao', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  enunciado: text('enunciado').notNull(),
+  alternativa1: text('alternativa1').notNull(),
+  alternativa2: text('alternativa2').notNull(),
+  alternativa3: text('alternativa3').notNull(),
+  alternativa4: text('alternativa4').notNull(),
+  alternativa5: text('alternativa5').notNull(),
+  resposta: integer('resposta').notNull()
 });
 
+// Tabela de categorias
 export const categoria = sqliteTable('categoria', {
-	id: integer().primaryKey({ autoIncrement: true }),
-	nome: text().notNull().unique()
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  nome: text('nome').notNull().unique()  // 'nome' deve ser string
 });
 
-export const questão_categoria = sqliteTable('questão_categoria', {
-	id: integer().primaryKey({ autoIncrement: true }),
-	id_questão: integer().notNull().references(() => questão.id),
-	id_categoria: integer().notNull().references(() => categoria.id)
+// Tabela de relação entre questões e categorias
+export const questao_categoria = sqliteTable('questao_categoria', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  id_questao: integer('id_questao').notNull().references(() => questao.id),
+  id_categoria: integer('id_categoria').notNull().references(() => categoria.id)
 });
