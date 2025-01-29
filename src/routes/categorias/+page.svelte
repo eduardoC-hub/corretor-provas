@@ -17,6 +17,10 @@
 			}
 		}
 	}
+
+	function confirmDelete() {
+		return window.confirm('Tem certeza de que deseja excluir esta categoria?');
+	}
 </script>
 
 <h1>Categorias</h1>
@@ -47,7 +51,7 @@
 				{:else}
 					{categoria.nome}
 					<button onclick={() => (categoria.editando = true)}>Editar</button>
-					<form method="post" action="?/excluir" style="display:inline;">
+					<form method="post" action="?/excluir" style="display:inline;" onsubmit="return confirmDelete()">
 						<input type="hidden" name="id" value={categoria.id} />
 						<button>Excluir</button>
 					</form>
