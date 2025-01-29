@@ -39,7 +39,7 @@ export const actions = {
 		const formData = await event.request.formData();
 		const nome = formData.get('nome');
 		const id = formData.get('id');
-		await db.update(table.categoria).set({ name: nome }).where(eq(table.categoria.id, id));
+		await db.update(table.categoria).set({ nome }).where(eq(table.categoria.id, id));
 		return redirect(302, '/categorias');
 	}
 };
