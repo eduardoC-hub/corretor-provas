@@ -17,6 +17,11 @@
 			}
 		}
 	}
+	function confirmarExclusao(event) {
+    if (!confirm("Tem certeza que deseja excluir esta categoria?")) {
+      event.preventDefault(); // Impede o envio do formulário se o usuário cancelar
+    }
+  }
 </script>
 
 <h1>Categorias</h1>
@@ -34,27 +39,27 @@
 
 <br />
 {#if filtrados.length}
-	<ul>
-		{#each filtrados as categoria}
-			<li>
-				{#if categoria.editando}
-					<form method="post" action="?/editar">
-						<input type="hidden" name="id" value={categoria.id} />
-						<input name="nome" value={categoria.nome} />
-						<button type="submit">Salvar</button>
-						<button onclick={() => (categoria.editando = false)}>Cancelar</button>
-					</form>
-				{:else}
-					{categoria.nome}
-					<button onclick={() => (categoria.editando = true)}>Editar</button>
-					<form method="post" action="?/excluir" style="display:inline;" onsubmit="return confirmDelete()">
-						<input type="hidden" name="id" value={categoria.id} />
-						<button>Excluir</button>
-					</form>
-				{/if}
-			</li>
-		{/each}
-	</ul>
+  <ul>
+    {#each filtrados as categoria}
+      <li>
+        {#if categoria.editando}
+          <form method="post" action="?/editar">
+            <input type="hidden" name="id" value={categoria.id} />
+            <input name="nome" value={categoria.nome} />
+            <button type="submit">Salvar</button>
+            <button type="button" onclick={() => (categoria.editando = false)}>Cancelar</button>
+          </form>
+        {:else}
+          {categoria.nome}
+          <button onclick={() => (categoria.editando = true)}>Editar</button>
+          <form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
+            <input type="hidden" name="id" value={categoria.id} />
+            <button type="submit">Excluir</button>
+          </form>
+        {/if}
+      </li>
+    {/each}
+  </ul>
 {:else}
-	<p>Nenhuma categoria cadastrada.</p>
+  <p>Nenhuma categoria cadastrada.</p>
 {/if}
