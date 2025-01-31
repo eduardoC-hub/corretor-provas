@@ -2,65 +2,85 @@
 	import { enhance } from '$app/forms';
 	let { data } = $props();
 
-	let form; // Agora o form será atualizado corretamente
+	let form;
 </script>
-<h1>Categorias</h1>
 
-{#if data.categorias.length}
-<ol>
-	{#each data.categorias as categoria}
-		<li>
-				{categoria.nome}
-		</li>
-	{/each}
-</ol>
-{:else}
-<p>Nenhuma categoria cadastrada.</p>
-{/if}
+<style>
+	.container {
+		max-width: 600px;
+		margin: auto;
+	}
+	.card {
+		border-radius: 10px;
+	}
+	.btn-primary {
+		background-color: #007bff;
+		border-color: #007bff;
+	}
+	.btn-primary:hover {
+		background-color: #0056b3;
+		border-color: #004085;
+	}
+	.alert {
+		text-align: center;
+	}
+</style>
 
-<h1>Nova questão</h1>
+<div class="container mt-4">
+	<h1 class="mb-3 text-center">Categorias</h1>
 
-<div class="form-group">
-	<label for="exampleFormControlSelect1">Selecione a Categoria</label>
-	<select class="form-control" id="exampleFormControlSelect1">
-	  {#each data.categorias as categoria}
-		<option value={categoria.id}>{categoria.nome}</option>
-	  {/each}
-	</select>
-  </div>
+	{#if data.categorias.length}
+		<ul class="list-group mb-4">
+			{#each data.categorias as categoria}
+				<li class="list-group-item">{categoria.nome}</li>
+			{/each}
+		</ul>
+	{:else}
+		<p class="text-muted text-center">Nenhuma categoria cadastrada.</p>
+	{/if}
 
-<form method="post" action="?/criar" use:enhance>
-	<div class="form-group">
-		<label for="exampleFormControlTextarea1">Enunciado da questão:</label>
-		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="enunciado" required></textarea>
-	  </div>
-	<br>
+	<h1 class="mb-3 text-center">Nova questão</h1>
 
-	<label>
-		Alternativas:
-		<br>
-		1 <input name="alternativa1" required />
-		<br>
-		2 <input name="alternativa2" required />
-		<br>
-		3 <input name="alternativa3" required />
-		<br>
-		4 <input name="alternativa4" required />
-		<br>
-		5 <input name="alternativa5" required />
-	</label>
-	<br>
+	<form method="post" action="?/criar" use:enhance class="card p-4 shadow-sm">
+		<div class="mb-3">
+			<label for="exampleFormControlSelect1" class="form-label">Selecione a Categoria</label>
+			<select class="form-select" id="exampleFormControlSelect1" name="categoria" required>
+				{#each data.categorias as categoria}
+					<option value={categoria.id}>{categoria.nome}</option>
+				{/each}
+			</select>
+		</div>
 
-	<label>
-		Resposta:
-		<input name="resposta" type="number" min="1" max="5" step="1" required />
-	</label>
-	<br>
+		<div class="mb-3">
+			<label for="exampleFormControlTextarea1" class="form-label">Enunciado da questão:</label>
+			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="enunciado" required></textarea>
+		</div>
 
-	<button type="submit">Criar questão</button>
-</form>
+		<div class="mb-3">
+			<p>Alternativas:</p>
+			<div class="row g-2">
+				{#each Array(5) as _, i}
+					<div class="col-12">
+						<div class="input-group">
+							<span class="input-group-text">{i + 1}</span>
+							<input type="text" class="form-control" name="alternativa{i + 1}" required />
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
 
-<!-- Exibir mensagem de erro, caso exista -->
-{#if form?.message}
-	<p style="color: red">{form.message}</p>
-{/if}
+		<div class="mb-3">
+			<p>Resposta Correta:</p>
+			<input class="form-control w-25" name="resposta" type="number" min="1" max="5" step="1" required />
+		</div>
+
+		<button type="submit" class="btn btn-primary w-100">Criar questão</button>
+	</form>
+
+	{#if form?.message}
+		<div class="alert alert-danger mt-3" role="alert">
+			{form.message}
+		</div>
+	{/if}
+</div>
