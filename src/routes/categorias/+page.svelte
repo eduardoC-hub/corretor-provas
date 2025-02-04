@@ -19,7 +19,7 @@
 	}
 	function confirmarExclusao(event) {
     if (!confirm("Tem certeza que deseja excluir esta categoria?")) {
-      event.preventDefault(); // Impede o envio do formulário se o usuário cancelar
+      event.preventDefault(); 
     }
   }
 </script>
@@ -66,12 +66,16 @@
 		text-align: center;
 		color: #6c757d;
 	}
-	/* Estilo para botões pequenos */
 	.small-button {
-		padding: 5px 10px; /* Tamanho menor */
-		font-size: 14px; /* Tamanho da fonte ajustado */
-		width: auto; /* Ajusta ao conteúdo */
+		padding: 5px 10px; 
+		font-size: 14px; 
+		width: auto; 
 		cursor: pointer;
+	}
+	
+	.botoes-acoes {
+		display: flex;
+		gap: 5px; 
 	}
 </style>
 
@@ -102,11 +106,13 @@
 	          </form>
 	        {:else}
 	          {categoria.nome}
-	          <button class="small-button" onclick={() => (categoria.editando = true)}>Editar</button>
-	          <form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
-	            <input type="hidden" name="id" value={categoria.id} />
-	            <button type="submit" class="small-button">Excluir</button>
-	          </form>
+	          <div class="botoes-acoes">
+	            <button class="small-button" onclick={() => (categoria.editando = true)}>Editar</button>
+	            <form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
+	              <input type="hidden" name="id" value={categoria.id} />
+	              <button type="submit" class="small-button">Excluir</button>
+	            </form>
+	          </div>
 	        {/if}
 	      </li>
 	    {/each}
