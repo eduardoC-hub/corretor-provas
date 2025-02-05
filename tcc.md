@@ -2,15 +2,13 @@
 
 frontend/backend
 
-node js
-
-package.json
-
-crud
-
-drizzle studio
+node js -> package.json
 
 sveltekit
+
+bancos de dados -> crud, transações em bancos de dados, on delete cascade
+
+drizzle studio
 
 
 
@@ -18,4 +16,6 @@ sveltekit
 
 # coisas para melhorar no projeto (todo-list)
 
-confirmar antes de excluir uma categoria
+crud de questão
+
+ondelete cascade não funcionando

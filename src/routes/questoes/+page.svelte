@@ -1,86 +1,86 @@
 <script>
 	import { enhance } from '$app/forms';
-	let { data } = $props();
+	let { data, form } = $props();
 
-	let form;
+	function confirmarExclusao(event) {
+		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
+			event.preventDefault();
+		}
+	}
 </script>
 
-<style>
-	.container {
-		max-width: 600px;
-		margin: auto;
-	}
-	.card {
-		border-radius: 10px;
-	}
-	.btn-primary {
-		background-color: #007bff;
-		border-color: #007bff;
-	}
-	.btn-primary:hover {
-		background-color: #0056b3;
-		border-color: #004085;
-	}
-	.alert {
-		text-align: center;
-	}
-</style>
+<h1>Questões</h1>
+{#if form?.message}
+	<div class="alert alert-danger mt-3" role="alert">
+		{form.message}
+	</div>
+{/if}
+{#if data.questoes && data.questoes.length > 0}
+	<ol>
+		{#each data.questoes as questao}
+			<li>
+				{#if questao.editando}
+					<form method="post" action="?/editar" use:enhance>
+						<input type="hidden" name="id" value={questao.id} />
 
-<div class="container mt-4">
-	<h1 class="mb-3 text-center">Categorias</h1>
+						<label for="enunciado-{questao.id}">Enunciado:</label>
+						<input id="enunciado-{questao.id}" name="enunciado" value={questao.enunciado} />
 
-	{#if data.categorias.length}
-		<ul class="list-group mb-4">
-			{#each data.categorias as categoria}
-				<li class="list-group-item">{categoria.nome}</li>
-			{/each}
-		</ul>
-	{:else}
-		<p class="text-muted text-center">Nenhuma categoria cadastrada.</p>
-	{/if}
+						<label for="alternativa1-{questao.id}">Alternativas:</label>
+						<ul>
+							{#each [1, 2, 3, 4, 5] as i}
+								<li>
+									<label for="alternativa{i}-{questao.id}"
+										>Alternativa {String.fromCharCode(64 + i)}:</label
+									>
+									<input
+										id="alternativa{i}-{questao.id}"
+										name={`alternativa${i}`}
+										value={questao[`alternativa${i}`]}
+									/>
+								</li>
+							{/each}
+						</ul>
 
-	<h1 class="mb-3 text-center">Nova questão</h1>
+						<label for="resposta-{questao.id}">Resposta correta:</label>
+						<input
+							id="resposta-{questao.id}"
+							name="resposta"
+							type="number"
+							min="1"
+							max="5"
+							value={questao.resposta}
+						/>
 
-	<form method="post" action="?/criar" use:enhance class="card p-4 shadow-sm">
-		<div class="mb-3">
-			<label for="exampleFormControlSelect1" class="form-label">Selecione a Categoria</label>
-			<select class="form-select" id="exampleFormControlSelect1" name="categoria" required>
-				{#each data.categorias as categoria}
-					<option value={categoria.id}>{categoria.nome}</option>
-				{/each}
-			</select>
-		</div>
+						<button type="submit">Salvar</button>
+						<button type="button" onclick={() => (questao.editando = false)}>Cancelar</button>
+					</form>
+				{:else}
+					<!-- <p><strong>Categoria:</strong> {questao.categoria}</p> -->
+					<p><strong>Enunciado:</strong> {questao.enunciado}</p>
+					<ol>
+						<li>A: {questao.alternativa1}</li>
+						<li>B: {questao.alternativa2}</li>
+						<li>C: {questao.alternativa3}</li>
+						<li>D: {questao.alternativa4}</li>
+						<li>E: {questao.alternativa5}</li>
+					</ol>
+					<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
-		<div class="mb-3">
-			<label for="exampleFormControlTextarea1" class="form-label">Enunciado da questão:</label>
-			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="enunciado" required></textarea>
-		</div>
-
-		<div class="mb-3">
-			<p>Alternativas:</p>
-			<div class="row g-2">
-				{#each Array(5) as _, i}
-					<div class="col-12">
-						<div class="input-group">
-							<span class="input-group-text">{i + 1}</span>
-							<input type="text" class="form-control" name="alternativa{i + 1}" required />
-						</div>
-					</div>
-				{/each}
-			</div>
-		</div>
-
-		<div class="mb-3">
-			<p>Resposta Correta:</p>
-			<input class="form-control w-25" name="resposta" type="number" min="1" max="5" step="1" required />
-		</div>
-
-		<button type="submit" class="btn btn-primary w-100">Criar questão</button>
-	</form>
-
-	{#if form?.message}
-		<div class="alert alert-danger mt-3" role="alert">
-			{form.message}
-		</div>
-	{/if}
-</div>
+					<button onclick={() => (questao.editando = true)}>Editar</button>
+					<form
+						method="post"
+						action="?/excluir"
+						style="display:inline;"
+						onsubmit={confirmarExclusao}
+					>
+						<input type="hidden" name="id" value={questao.id} />
+						<button type="submit">Excluir</button>
+					</form>
+				{/if}
+			</li>
+		{/each}
+	</ol>
+{:else}
+	<p>Nenhuma questão cadastrada.</p>
+{/if}
