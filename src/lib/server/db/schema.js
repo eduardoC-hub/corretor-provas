@@ -13,7 +13,7 @@ export const session = sqliteTable('session', {
     id: text('id').primaryKey(),
     userId: text('user_id')
         .notNull()
-        .references(() => user.id),
+        .references(() => user.id, { onDelete: 'cascade' }),  // CASCADE ativado
     expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
@@ -32,12 +32,14 @@ export const questao = sqliteTable('questao', {
 // Tabela de categorias
 export const categoria = sqliteTable('categoria', {
     id: integer('id').primaryKey({ autoIncrement: true }),
-    nome: text('nome').notNull().unique()  // 'nome' deve ser string
+    nome: text('nome').notNull().unique()
 });
 
 // Tabela de relação entre questões e categorias
 export const questao_categoria = sqliteTable('questao_categoria', {
     id: integer('id').primaryKey({ autoIncrement: true }),
-    id_questao: integer('id_questao').notNull().references(() => questao.id, { onDelete: 'cascade' }),
-    id_categoria: integer('id_categoria').notNull().references(() => categoria.id, { onDelete: 'cascade' })
+    id_questao: integer('id_questao').notNull()
+        .references(() => questao.id, { onDelete: 'cascade' }).notNull(),  // CASCADE ativado
+    id_categoria: integer('id_categoria').notNull()
+        .references(() => categoria.id, { onDelete: 'cascade' }).notNull() // CASCADE ativado
 });

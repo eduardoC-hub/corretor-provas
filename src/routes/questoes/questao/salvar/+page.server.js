@@ -21,21 +21,19 @@ export const actions = {
 		const resposta = Number(formData.get('resposta'));
 
 		try {
-			await db.transaction(async () => {
-				const [{ id_questao }] = await db.insert(table.questao).values({
-					enunciado,
-					alternativa1,
-					alternativa2,
-					alternativa3,
-					alternativa4,
-					alternativa5,
-					resposta
-				}).returning({ id_questao: table.questao.id });
+			const [questao] = await db.insert(table.questao).values({
+				enunciado,
+				alternativa1,
+				alternativa2,
+				alternativa3,
+				alternativa4,
+				alternativa5,
+				resposta
+			}).returning({ id_questao: table.questao.id });
 
-				await db.insert(table.questao_categoria).values({
-					id_questao,
-					id_categoria
-				})
+			await db.insert(table.questao_categoria).values({
+				id_questao: questao.id_questao,
+				id_categoria
 			});
 		} catch (e) {
 			return fail(500, { message: 'Ocorreu um erro: ' + e.message });
