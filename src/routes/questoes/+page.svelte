@@ -10,6 +10,7 @@
 </script>
 
 <h1>Questões</h1>
+<a class="btn btn-primary" href="/questoes/questao/salvar">Nova Questão</a>
 {#if form?.message}
 	<div class="alert alert-danger mt-3" role="alert">
 		{form.message}
@@ -30,27 +31,14 @@
 						<ul>
 							{#each [1, 2, 3, 4, 5] as i}
 								<li>
-									<label for="alternativa{i}-{questao.id}"
-										>Alternativa {String.fromCharCode(64 + i)}:</label
-									>
-									<input
-										id="alternativa{i}-{questao.id}"
-										name={`alternativa${i}`}
-										value={questao[`alternativa${i}`]}
-									/>
+									<label for="alternativa{i}-{questao.id}">Alternativa {String.fromCharCode(64 + i)}:</label>
+									<input id="alternativa{i}-{questao.id}" name={`alternativa${i}`} value={questao[`alternativa${i}`]} />
 								</li>
 							{/each}
 						</ul>
 
 						<label for="resposta-{questao.id}">Resposta correta:</label>
-						<input
-							id="resposta-{questao.id}"
-							name="resposta"
-							type="number"
-							min="1"
-							max="5"
-							value={questao.resposta}
-						/>
+						<input id="resposta-{questao.id}" name="resposta" type="number" min="1" max="5" value={questao.resposta} />
 
 						<button type="submit">Salvar</button>
 						<button type="button" onclick={() => (questao.editando = false)}>Cancelar</button>
@@ -68,12 +56,7 @@
 					<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
 					<button onclick={() => (questao.editando = true)}>Editar</button>
-					<form
-						method="post"
-						action="?/excluir"
-						style="display:inline;"
-						onsubmit={confirmarExclusao}
-					>
+					<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
 						<input type="hidden" name="id" value={questao.id} />
 						<button type="submit">Excluir</button>
 					</form>

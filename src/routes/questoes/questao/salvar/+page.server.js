@@ -2,11 +2,6 @@ import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 
-export const load = async () => {
-	const categorias = await db.select().from(table.categoria);
-	return { categorias };
-};
-
 export const actions = {
 	criar: async (event) => {
 		const formData = await event.request.formData();
@@ -16,27 +11,34 @@ export const actions = {
 		const alternativa3 = formData.get('alternativa3');
 		const alternativa4 = formData.get('alternativa4');
 		const alternativa5 = formData.get('alternativa5');
-		const id_categoria = formData.get('id_categoria');
-
+		const categorias = formData.getAll('categorias'); // todo-list preciso converter para array de objetos com pelo menos nome, mas alguns podem ter id?
 		const resposta = Number(formData.get('resposta'));
 
 		try {
-			const [questao] = await db.insert(table.questao).values({
-				enunciado,
-				alternativa1,
-				alternativa2,
-				alternativa3,
-				alternativa4,
-				alternativa5,
-				resposta
-			}).returning({ id_questao: table.questao.id });
+			await db.transaction(async (tx) => {
+				const [questao] = await tx.insert(table.questao).values({
+					enunciado,
+					alternativa1,
+					alternativa2,
+					alternativa3,
+					alternativa4,
+					alternativa5,
+					resposta
+				}).returning({ id_questao: table.questao.id });
 
-			await db.insert(table.questao_categoria).values({
-				id_questao: questao.id_questao,
-				id_categoria
+				await tx.insert(table.categoria).values(categorias).onConflictDoNothing();
+
+				// for (const categoria of categorias) {
+				// 	await tx.insert(table.questao_categoria).values({
+				// 		id_questao: questao.id_questao,
+				// 		id_categoria: categoria.id
+				// 	});
+				// }
 			});
 		} catch (e) {
-			return fail(500, { message: 'Ocorreu um erro: ' + e.message });
+			return fail(500, {
+				message: 'Ocorreu um erro: ' + e.message, enunciado, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, categorias, resposta
+			});
 		}
 
 		// Se estiver usando enhance, o redirecionamento precisa ser feito manualmente no frontend

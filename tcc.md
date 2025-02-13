@@ -18,4 +18,6 @@ drizzle studio
 
 crud de questão
 
-ondelete cascade não funcionando
+on delete cascade não é recomendado, depois ver uma alternativa
+
+possibilidade de carregar questões de um arquivo, por exemplo, uma planilha
