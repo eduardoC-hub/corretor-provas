@@ -3,16 +3,18 @@
 	let busca = $state('');
 	let categorias = $state([]);
 
+	if (form?.categorias) categorias = form.categorias;
+
 	async function buscarcategoria() {
-		console.log('oi');
-		if (!busca.trim() || categorias.some((c) => c.nome === busca)) return;
+		// console.log('oi', busca, $state.snapshot(categorias));
+		if (!busca.trim() || categorias.some((c) => c === busca)) return;
 
 		const response = await fetch(`/categorias?categoria=${busca}`);
 		const categoria = await response.json();
 		if (categoria?.id) {
-			categorias.push(categoria);
+			categorias.push(categoria.nome);
 		} else {
-			categorias.push({ nome: busca, id: null });
+			categorias.push(busca);
 		}
 		busca = '';
 	}
@@ -54,8 +56,8 @@
 			<div class="mb-3">
 				Categorias Selecionadas (clique em uma para apagá-la)<br />
 				{#each categorias as categoria}
-					<input type="checkbox" class="btn-check" id={categoria.nome} name="categorias" value={categoria.nome} checked />
-					<button type="button" class="btn text-bg-secondary" for={categoria.nome} onclick={() => (categorias = categorias.filter((c) => c.nome != categoria.nome))}>{categoria.nome}</button>
+					<input type="checkbox" class="btn-check" id={categoria} name="categorias" value={categoria} checked />
+					<button type="button" class="btn text-bg-secondary" for={categoria} onclick={() => categorias.splice(categorias.indexOf(categoria), 1)}>{categoria}</button>
 				{/each}
 			</div>
 		{/if}

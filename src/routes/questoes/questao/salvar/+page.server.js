@@ -1,6 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
+import { inArray } from 'drizzle-orm';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	criar: async (event) => {
@@ -11,12 +13,14 @@ export const actions = {
 		const alternativa3 = formData.get('alternativa3');
 		const alternativa4 = formData.get('alternativa4');
 		const alternativa5 = formData.get('alternativa5');
-		const categorias = formData.getAll('categorias'); // todo-list preciso converter para array de objetos com pelo menos nome, mas alguns podem ter id?
+		const categorias = formData.getAll('categorias');
 		const resposta = Number(formData.get('resposta'));
+
+		let id_questao;
 
 		try {
 			await db.transaction(async (tx) => {
-				const [questao] = await tx.insert(table.questao).values({
+				[{ id_questao }] = await tx.insert(table.questao).values({
 					enunciado,
 					alternativa1,
 					alternativa2,
@@ -26,14 +30,10 @@ export const actions = {
 					resposta
 				}).returning({ id_questao: table.questao.id });
 
-				await tx.insert(table.categoria).values(categorias).onConflictDoNothing();
+				await tx.insert(table.categoria).values(categorias.map(item => ({ nome: item }))).onConflictDoNothing();
+				const id_categorias = await tx.select({ id_categoria: table.categoria.id }).from(table.categoria).where(inArray(table.categoria.nome, categorias));
 
-				// for (const categoria of categorias) {
-				// 	await tx.insert(table.questao_categoria).values({
-				// 		id_questao: questao.id_questao,
-				// 		id_categoria: categoria.id
-				// 	});
-				// }
+				await tx.insert(table.questao_categoria).values(id_categorias.map(({ id_categoria }) => ({ id_questao, id_categoria })));
 			});
 		} catch (e) {
 			return fail(500, {
@@ -41,7 +41,6 @@ export const actions = {
 			});
 		}
 
-		// Se estiver usando enhance, o redirecionamento precisa ser feito manualmente no frontend
-		return { success: true };
+		return redirect(302, `/questoes/questao/${id_questao}`);
 	}
 };
