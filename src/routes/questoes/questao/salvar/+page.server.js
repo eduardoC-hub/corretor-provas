@@ -1,8 +1,7 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { inArray } from 'drizzle-orm';
-import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	criar: async (event) => {
@@ -20,15 +19,8 @@ export const actions = {
 
 		try {
 			await db.transaction(async (tx) => {
-				[{ id_questao }] = await tx.insert(table.questao).values({
-					enunciado,
-					alternativa1,
-					alternativa2,
-					alternativa3,
-					alternativa4,
-					alternativa5,
-					resposta
-				}).returning({ id_questao: table.questao.id });
+				[{ id_questao }] = await tx.insert(table.questao)
+					.values({ enunciado, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, resposta }).returning({ id_questao: table.questao.id });
 
 				await tx.insert(table.categoria).values(categorias.map(item => ({ nome: item }))).onConflictDoNothing();
 				const id_categorias = await tx.select({ id_categoria: table.categoria.id }).from(table.categoria).where(inArray(table.categoria.nome, categorias));
