@@ -11,7 +11,7 @@ No frontend, escolhemos o SvelteKit, um framework moderno baseado no Svelte. Ele
 Utilizamos o MySQL como banco de dados relacional, garantindo organização e segurança dos dados. Implementamos operações de CRUD (Criar, Ler, Atualizar e Excluir) para gerenciar os registros de forma eficiente. Também utilizamos transações para garantir que processos importantes sejam concluídos corretamente, evitando erros nos dados.
 
 # ( ver se vai precisar ON DELETE) 
-Para manter a integridade dos dados, usamos ON DELETE CASCADE. Isso significa que, quando um registro principal for excluído, os registros relacionados a ele também serão removidos automaticamente, evitando dados sem referência. 
+Um aspecto importante da modelagem do banco foi a utilização do ON DELETE CASCADE. Esse recurso é essencial para manter a integridade referencial, pois garante que, ao excluir um registro principal, todos os registros dependentes também sejam removidos automaticamente. Dessa forma, evitamos a existência de dados órfãos e mantemos a coerência do banco de dados.
 
 # drizzle studio
 Para facilitar o gerenciamento do banco, utilizamos o Drizzle Studio. Essa ferramenta permite visualizar, modificar e executar consultas SQL de maneira simples. Além disso, o Drizzle se integra bem com TypeScript, garantindo segurança nas operações.
