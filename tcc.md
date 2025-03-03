@@ -21,3 +21,5 @@ crud de questão
 on delete cascade não é recomendado, depois ver uma alternativa
 
 possibilidade de carregar questões de um arquivo, por exemplo, uma planilha
+
+escrever o texto do TCC
