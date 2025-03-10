@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { inArray } from 'drizzle-orm';
 
+
 export const actions = {
 	criar: async (event) => {
 		const formData = await event.request.formData();
