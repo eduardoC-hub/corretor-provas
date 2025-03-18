@@ -11,43 +11,43 @@
 	}
 	import * as XLSX from 'xlsx';
 
-function handleFileUpload(event) {
-  const selectedFile = event.target.files[0];
-  if (!selectedFile) return;
+	function handleFileUpload(event) {
+		const selectedFile = event.target.files[0];
+		if (!selectedFile) return;
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-	const data = new Uint8Array(e.target.result);
-	const workbook = XLSX.read(data, { type: 'array' });
-	const sheetName = workbook.SheetNames[0];
-	const sheet = workbook.Sheets[sheetName];
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const data = new Uint8Array(e.target.result);
+			const workbook = XLSX.read(data, { type: 'array' });
+			const sheetName = workbook.SheetNames[0];
+			const sheet = workbook.Sheets[sheetName];
 
-	questoes = XLSX.utils.sheet_to_json(sheet);
-	console.log("Questões carregadas:", questoes);
-  };
+			questoes = XLSX.utils.sheet_to_json(sheet);
+			console.log('Questões carregadas:', questoes);
+		};
 
-  reader.readAsArrayBuffer(selectedFile);
-}
+		reader.readAsArrayBuffer(selectedFile);
+	}
 
-async function enviarParaBackend() {
-  if (questoes.length === 0) {
-	alert("Nenhuma questão para importar!");
-	return;
-  }
+	async function enviarParaBackend() {
+		if (questoes.length === 0) {
+			alert('Nenhuma questão para importar!');
+			return;
+		}
 
-  const response = await fetch('/importar-questoes', {
-	method: 'POST',
-	body: JSON.stringify({ questoes }),
-	headers: { 'Content-Type': 'application/json' }
-  });
+		const response = await fetch('/importar-questoes', {
+			method: 'POST',
+			body: JSON.stringify({ questoes }),
+			headers: { 'Content-Type': 'application/json' }
+		});
 
-  const result = await response.json();
-  if (result.success) {
-	alert("Questões importadas com sucesso!");
-  } else {
-	alert("Erro ao importar questões: " + result.message);
-  }
-}
+		const result = await response.json();
+		if (result.success) {
+			alert('Questões importadas com sucesso!');
+		} else {
+			alert('Erro ao importar questões: ' + result.message);
+		}
+	}
 </script>
 
 <h1>Questões</h1>
@@ -109,6 +109,6 @@ async function enviarParaBackend() {
 	<p>Nenhuma questão cadastrada.</p>
 {/if}
 
-	<h3>Importar Questões</h3>
-	<input type="file" accept=".xlsx, .csv" onchange={handleFileUpload} class="form-control my-2" />
-	  <button onclick={enviarParaBackend} class="btn btn-success">Importar para o Banco</button>
+<h3>Importar Questões</h3>
+<input type="file" accept=".xlsx, .csv" onchange={handleFileUpload} class="form-control my-2" />
+<button onclick={enviarParaBackend} class="btn btn-success">Importar para o Banco</button>
