@@ -1,6 +1,15 @@
 <script>
 	export let data;
+	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+
 	let { questao, categorias } = data;
+
+	function confirmarExclusao(event) {
+		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
+			event.preventDefault();
+		}
+	}
 </script>
 
 <div class="container mt-4">
@@ -31,5 +40,10 @@
 
 		<!-- Botão de Editar -->
 		<a href="/questoes/questao/{questao.id}/editar" class="btn btn-warning mt-3">Editar Questão</a>
+		<!-- Botão de Excluir -->
+		<!-- Formulário de exclusão -->
+		<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
+			<input type="hidden" name="id" value={questao.id} />
+			<button type="submit" class="btn btn-danger mt-3" style="width:100%">Excluir Questão</button>
 	</div>
 </div>

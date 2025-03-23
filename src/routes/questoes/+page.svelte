@@ -1,5 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
+	import * as XLSX from 'xlsx';
+
 	let { data, form } = $props();
 	let file; // Arquivo selecionado
 	let questoes = $state(); // Questões extraídas do Excel
@@ -9,7 +11,6 @@
 			event.preventDefault();
 		}
 	}
-	import * as XLSX from 'xlsx';
 
 	function handleFileUpload(event) {
 		const selectedFile = event.target.files[0];
@@ -61,30 +62,6 @@
 	<ol>
 		{#each data.questoes as questao}
 			<li>
-				{#if questao.editando}
-					<form method="post" action="?/editar" use:enhance>
-						<input type="hidden" name="id" value={questao.id} />
-
-						<label for="enunciado-{questao.id}">Enunciado:</label>
-						<input id="enunciado-{questao.id}" name="enunciado" value={questao.enunciado} />
-
-						<label for="alternativa1-{questao.id}">Alternativas:</label>
-						<ul>
-							{#each [1, 2, 3, 4, 5] as i}
-								<li>
-									<label for="alternativa{i}-{questao.id}">Alternativa {String.fromCharCode(64 + i)}:</label>
-									<input id="alternativa{i}-{questao.id}" name={`alternativa${i}`} value={questao[`alternativa${i}`]} />
-								</li>
-							{/each}
-						</ul>
-
-						<label for="resposta-{questao.id}">Resposta correta:</label>
-						<input id="resposta-{questao.id}" name="resposta" type="number" min="1" max="5" value={questao.resposta} />
-
-						<button type="submit">Salvar</button>
-						<button type="button" onclick={() => (questao.editando = false)}>Cancelar</button>
-					</form>
-				{:else}
 					<!-- <p><strong>Categoria:</strong> {questao.categoria}</p> -->
 					<p><strong>Enunciado:</strong> {questao.enunciado}</p>
 					<ol>
@@ -96,12 +73,14 @@
 					</ol>
 					<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
-					<button onclick={() => (questao.editando = true)}>Editar</button>
+					<form method="post" action="?/editar" style="display:inline;">
+						<input type="hidden" name="id" value={questao.id} />
+						<button type="submit">Editar</button>
+					</form>
 					<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
 						<input type="hidden" name="id" value={questao.id} />
 						<button type="submit">Excluir</button>
 					</form>
-				{/if}
 			</li>
 		{/each}
 	</ol>

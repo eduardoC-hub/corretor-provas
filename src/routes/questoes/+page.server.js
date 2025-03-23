@@ -69,15 +69,7 @@ export const actions = {
 	editar: async (event) => {
 		const formData = await event.request.formData();
 		const id = formData.get('id');
-		const enunciado = formData.get('enunciado');
-		const alternativa1 = formData.get('alternativa1');
-		const alternativa2 = formData.get('alternativa2');
-		const alternativa3 = formData.get('alternativa3');
-		const alternativa4 = formData.get('alternativa4');
-		const alternativa5 = formData.get('alternativa5');
-		const resposta = Number(formData.get('resposta'));
-		await db.update(table.questao).set({ enunciado, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, resposta }).where(eq(table.questao.id, id));
-		return redirect(302, '/questoes/listaquestoes');
+		return redirect(302, '/questoes/questao/' + id + '/editar');
 	},
 };
 
