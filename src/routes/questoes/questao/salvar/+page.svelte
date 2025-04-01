@@ -1,15 +1,12 @@
 <script>
-	let { data, form } = $props();
+	let { form } = $props();
 	let busca = $state('');
 	let categorias = $state(form?.categorias || []);
 
 	async function buscarcategoria() {
 		if (!busca.trim() || categorias.includes(busca)) return;
 
-		const response = await fetch(`/categorias?categoria=${busca}`);
-		const categoria = await response.json();
-
-		categorias.push(categoria?.id ? categoria.nome : busca);
+		categorias.push(busca);
 		busca = '';
 	}
 </script>
