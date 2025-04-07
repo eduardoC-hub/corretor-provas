@@ -3,8 +3,10 @@
 	import * as XLSX from 'xlsx';
 
 	let { data, form } = $props();
-	let file; // Arquivo selecionado
-	let questoes = $state(); // Questões extraídas do Excel
+	let file;
+	let questoes = $state();
+	let questoes_escolhidas = $state([]);
+	let filtro = $state('');
 
 	function confirmarExclusao(event) {
 		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
@@ -49,38 +51,52 @@
 			alert('Erro ao importar questões: ' + result.message);
 		}
 	}
+
+	function toggleQuestaoSelecionada(id) {
+		if (questoes_escolhidas.includes(id)) {
+			questoes_escolhidas = questoes_escolhidas.filter((q) => q !== id);
+		} else {
+			questoes_escolhidas = [...questoes_escolhidas, id];
+		}
+	}
 </script>
 
 <h1>Questões</h1>
 <a class="btn btn-primary" href="/questoes/questao/salvar">Nova Questão</a>
+
+<input type="text" placeholder="Pesquisar pelo enunciado..." bind:value={filtro} class="form-control my-3" />
+
 {#if form?.message}
 	<div class="alert alert-danger mt-3" role="alert">
 		{form.message}
 	</div>
 {/if}
+
 {#if data.questoes && data.questoes.length > 0}
 	<ol>
-		{#each data.questoes as questao}
+		{#each data.questoes.filter((q) => q.enunciado.toLowerCase().includes(filtro.toLowerCase())) as questao}
 			<li>
-					<!-- <p><strong>Categoria:</strong> {questao.categoria}</p> -->
-					<p><strong>Enunciado:</strong> {questao.enunciado}</p>
-					<ol>
-						<li>A: {questao.alternativa1}</li>
-						<li>B: {questao.alternativa2}</li>
-						<li>C: {questao.alternativa3}</li>
-						<li>D: {questao.alternativa4}</li>
-						<li>E: {questao.alternativa5}</li>
-					</ol>
-					<p><strong>Resposta correta:</strong> {questao.resposta}</p>
+				<p><strong>Enunciado:</strong> {questao.enunciado}</p>
+				<ol>
+					<li>A: {questao.alternativa1}</li>
+					<li>B: {questao.alternativa2}</li>
+					<li>C: {questao.alternativa3}</li>
+					<li>D: {questao.alternativa4}</li>
+					<li>E: {questao.alternativa5}</li>
+				</ol>
+				<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
-					<form method="post" action="?/editar" style="display:inline;">
-						<input type="hidden" name="id" value={questao.id} />
-						<button type="submit">Editar</button>
-					</form>
-					<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
-						<input type="hidden" name="id" value={questao.id} />
-						<button type="submit">Excluir</button>
-					</form>
+				<input type="checkbox" checked={questoes_escolhidas.includes(questao.id)} onchange={() => toggleQuestaoSelecionada(questao.id)} />
+				<br />
+
+				<form method="post" action="?/editar" style="display:inline;">
+					<input type="hidden" name="id" value={questao.id} />
+					<button type="submit">Editar</button>
+				</form>
+				<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
+					<input type="hidden" name="id" value={questao.id} />
+					<button type="submit">Excluir</button>
+				</form>
 			</li>
 		{/each}
 	</ol>
