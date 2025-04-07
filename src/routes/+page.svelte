@@ -1,6 +1,5 @@
 <br>
 <br>
 <h1><center>TCC dos brabos 
-<li>Arthur, Eduardo, Reinaldo e Pedro</li>
-<a href="questoes">Questoes</a>
+<li>Arthur, Eduardo e Pedro</li>
 </center></h1>
