@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 export const load = async () => {
 	const questoes = await db.select().from(table.questao);
 	return { questoes };
+
 };
 
 export const actions = {

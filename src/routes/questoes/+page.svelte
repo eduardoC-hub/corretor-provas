@@ -17,7 +17,7 @@
 	function handleFileUpload(event) {
 		const selectedFile = event.target.files[0];
 		if (!selectedFile) return;
-
+		
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			const data = new Uint8Array(e.target.result);
