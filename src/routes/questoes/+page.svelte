@@ -7,6 +7,7 @@
 	let questoes = $state();
 	let questoes_escolhidas = $state([]);
 	let filtro = $state('');
+	let qtdprovas = $state();
 
 	function confirmarExclusao(event) {
 		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
@@ -17,7 +18,7 @@
 	function handleFileUpload(event) {
 		const selectedFile = event.target.files[0];
 		if (!selectedFile) return;
-		
+
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			const data = new Uint8Array(e.target.result);
@@ -59,6 +60,30 @@
 			questoes_escolhidas = [...questoes_escolhidas, id];
 		}
 	}
+
+	function gerarprovas(){
+		console.log(questoes_escolhidas)
+		for (let i = 0; i < qtdprovas; i++){
+			shuffle(questoes_escolhidas)
+			console.log(questoes_escolhidas)
+		}
+	}
+
+	function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
 </script>
 
 <h1>Questões</h1>
@@ -86,7 +111,7 @@
 				</ol>
 				<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
-				<input type="checkbox" checked={questoes_escolhidas.includes(questao.id)} onchange={() => toggleQuestaoSelecionada(questao.id)} />
+				<input type="checkbox" value={questao} bind:group={questoes_escolhidas} />
 				<br />
 
 				<form method="post" action="?/editar" style="display:inline;">
@@ -103,6 +128,12 @@
 {:else}
 	<p>Nenhuma questão cadastrada.</p>
 {/if}
+
+<form method="post" action="/provas?/gerarprova">
+	<input type="hidden" name="questoesescolhidas" bind:value={questoes_escolhidas}>
+	<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" bind:value={qtdprovas}/>
+	<button>gerar prova</button>
+</form>
 
 <h3>Importar Questões</h3>
 <input type="file" accept=".xlsx, .csv" onchange={handleFileUpload} class="form-control my-2" />
