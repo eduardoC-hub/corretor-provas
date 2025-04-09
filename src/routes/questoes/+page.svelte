@@ -98,9 +98,9 @@
 {/if}
 
 {#if data.questoes && data.questoes.length > 0}
-	<ol>
+	<ol class="questoes-lista">
 		{#each data.questoes.filter((q) => q.enunciado.toLowerCase().includes(filtro.toLowerCase())) as questao}
-			<li>
+			<li class="questao-item">
 				<p><strong>Enunciado:</strong> {questao.enunciado}</p>
 				<ol>
 					<li>A: {questao.alternativa1}</li>
@@ -111,30 +111,195 @@
 				</ol>
 				<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
-				<input type="checkbox" value={questao} bind:group={questoes_escolhidas} />
-				<br />
+				<label>
+					<input type="checkbox" value={questao} bind:group={questoes_escolhidas} />
+					Selecionar
+				</label>
 
-				<form method="post" action="?/editar" style="display:inline;">
-					<input type="hidden" name="id" value={questao.id} />
-					<button type="submit">Editar</button>
-				</form>
-				<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
-					<input type="hidden" name="id" value={questao.id} />
-					<button type="submit">Excluir</button>
-				</form>
+				<div class="botoes-acoes">
+					<form method="post" action="?/editar">
+						<input type="hidden" name="id" value={questao.id} />
+						<button type="submit" class="btn-editar">Editar</button>
+					</form>
+					<form method="post" action="?/excluir" onsubmit={confirmarExclusao}>
+						<input type="hidden" name="id" value={questao.id} />
+						<button type="submit" class="btn-excluir">Excluir</button>
+					</form>
+				</div>
 			</li>
 		{/each}
 	</ol>
 {:else}
-	<p>Nenhuma questão cadastrada.</p>
+	<p class="sem-questoes">Nenhuma questão cadastrada.</p>
 {/if}
 
-<form method="post" action="/provas?/gerarprova">
+<form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
 	<input type="hidden" name="questoesescolhidas" bind:value={questoes_escolhidas}>
 	<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" bind:value={qtdprovas}/>
-	<button>gerar prova</button>
+	<button class="btn btn-primary">Gerar Prova</button>
 </form>
 
 <h3>Importar Questões</h3>
 <input type="file" accept=".xlsx, .csv" onchange={handleFileUpload} class="form-control my-2" />
 <button onclick={enviarParaBackend} class="btn btn-success">Importar para o Banco</button>
+
+<style>
+	:global(body) {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #f4f6f8;
+		color: #333;
+		padding: 20px;
+	}
+
+	h1 {
+		color: #2d3748;
+		margin-bottom: 20px;
+	}
+
+	h3 {
+		margin-top: 40px;
+		color: #2c5282;
+	}
+
+	a.btn {
+		margin-bottom: 20px;
+		display: inline-block;
+		background-color: #2b6cb0;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 5px;
+		text-decoration: none;
+	}
+
+	a.btn:hover {
+		background-color: #2c5282;
+	}
+
+	.form-control {
+		padding: 10px;
+		border-radius: 5px;
+		border: 1px solid #ccc;
+	}
+
+	.questoes-lista {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.questao-item {
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		border-left: 5px solid #3182ce;
+	}
+
+	.questao-item p {
+		margin: 5px 0;
+	}
+
+	.questao-item ol {
+		margin-left: 20px;
+		margin-top: 10px;
+	}
+
+	.botoes-acoes {
+		display: flex;
+		gap: 10px;
+		margin-top: 15px;
+	}
+
+	.btn-editar,
+	.btn-excluir {
+		padding: 6px 14px;
+		border: none;
+		border-radius: 4px;
+		color: #fff;
+		cursor: pointer;
+		font-size: 0.9em;
+	}
+
+	.btn-editar {
+		background-color: #38a169;
+	}
+
+	.btn-excluir {
+		background-color: #e53e3e;
+	}
+
+	.btn-editar:hover {
+		background-color: #2f855a;
+	}
+
+	.btn-excluir:hover {
+		background-color: #c53030;
+	}
+
+	form button {
+		margin-top: 10px;
+	}
+
+	.sem-questoes {
+		color: #718096;
+		font-style: italic;
+	}
+
+	input[type="text"],
+	input[type="number"] {
+		width: 100%;
+		max-width: 400px;
+		margin-bottom: 20px;
+	}
+
+	.form-gerar-prova {
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 8px;
+		margin-top: 30px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		max-width: 400px;
+	}
+
+	.btn.btn-success,
+	button[type="submit"],
+	button[onclick] {
+		background-color: #38a169;
+		border: none;
+		color: white;
+		padding: 10px 20px;
+		border-radius: 5px;
+		cursor: pointer;
+		width: fit-content;
+	}
+
+	.btn.btn-success:hover,
+	button[type="submit"]:hover,
+	button[onclick]:hover {
+		background-color: #2f855a;
+	}
+
+	input[type="file"] {
+		margin-bottom: 10px;
+	}
+
+	label {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		margin-top: 10px;
+	}
+
+	.alert {
+		padding: 15px;
+		border-radius: 6px;
+		background-color: #fed7d7;
+		color: #9b2c2c;
+		max-width: 400px;
+	}
+</style>
