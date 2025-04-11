@@ -5,7 +5,7 @@
 	let { data, form } = $props();
 	let file;
 	let questoes = $state();
-	let questoes_escolhidas = $state([]);
+	let questoesescolhidas = $state([]);
 	let filtro = $state('');
 	let qtdprovas = $state();
 
@@ -54,18 +54,18 @@
 	}
 
 	function toggleQuestaoSelecionada(id) {
-		if (questoes_escolhidas.includes(id)) {
-			questoes_escolhidas = questoes_escolhidas.filter((q) => q !== id);
+		if (questoesescolhidas.includes(id)) {
+			questoesescolhidas = questoesescolhidas.filter((q) => q !== id);
 		} else {
-			questoes_escolhidas = [...questoes_escolhidas, id];
+			questoesescolhidas = [...questoesescolhidas, id];
 		}
 	}
 
 	function gerarprovas(){
-		console.log(questoes_escolhidas)
+		console.log(questoesescolhidas)
 		for (let i = 0; i < qtdprovas; i++){
-			shuffle(questoes_escolhidas)
-			console.log(questoes_escolhidas)
+			shuffle(questoesescolhidas)
+			console.log(questoesescolhidas)
 		}
 	}
 
@@ -112,7 +112,7 @@
 				<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
 				<label>
-					<input type="checkbox" value={questao} bind:group={questoes_escolhidas} />
+					<input type="checkbox" value={questao} bind:group={questoesescolhidas} />
 					Selecionar
 				</label>
 
@@ -134,8 +134,8 @@
 {/if}
 
 <form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
-	<input type="hidden" name="questoesescolhidas" bind:value={questoes_escolhidas}>
-	<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" bind:value={qtdprovas}/>
+	<input type="hidden" name="questoesescolhidas" value={JSON.stringify(questoesescolhidas)}>
+	<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)}/>
 	<button class="btn btn-primary">Gerar Prova</button>
 </form>
 

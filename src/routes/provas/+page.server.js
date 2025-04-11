@@ -1,11 +1,45 @@
-
 export const actions = {
 	gerarprova: async (event) => {
 		const formData = await event.request.formData();
-        const questoesescolhidas = formData.get('questoesescolhidas');
-		console.log(formData)
-        console.log(questoesescolhidas)
+		const questoesescolhidasString = formData.get('questoesescolhidas');
+		const qtdprovasString = formData.get('qtdprovas');
+		const qtdprovas = JSON.parse(qtdprovasString);
+		const questoesescolhidas = JSON.parse(questoesescolhidasString);
 
-        // como passar um array dentro de um formulário
+		shuffle(questoesescolhidas)
+		for (const questao of questoesescolhidas) {
+			questao.alternativas = [
+				questao.alternativa1,
+				questao.alternativa2,
+				questao.alternativa3,
+				questao.alternativa4,
+				questao.alternativa5
+			];
+
+			const indiceResposta = Number(questao.resposta) - 1;
+			const respostaCorreta = questao.alternativas[indiceResposta];
+			questao.respostacerta = respostaCorreta;
+
+			shuffle(questao.alternativas);
+
+			questao.resposta = questao.alternativas.findIndex((alt) => alt === respostaCorreta);
+			console.log(questao);
+		}
+
+		return {
+			provas: questoesescolhidas,
+			qtdprovas: qtdprovas,
+		};
 	}
 };
+
+function shuffle(array) {
+	let currentIndex = array.length;
+	while (currentIndex != 0) {
+		let randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+		[array[currentIndex], array[randomIndex]] = [
+			array[randomIndex], array[currentIndex]
+		];
+	}
+}
