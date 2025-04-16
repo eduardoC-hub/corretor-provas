@@ -61,15 +61,19 @@
 				</tbody>
 			</table>
 
-			{#each prova as questao, i}
-				<p><strong>Questão {i + 1} </strong></p>
-				<p>{questao.enunciado}</p>
-				<ol type="A">
-					{#each questao.alternativas as alternativa}
-						<li>{alternativa}</li>
-					{/each}
-				</ol>
-			{/each}
+			<div class="questoes">
+				{#each prova as questao, i}
+				<div class="coluna">
+					<p><strong>Questão {i + 1} </strong></p>
+					<p>{questao.enunciado}</p>
+					<ol type="A">
+						{#each questao.alternativas as alternativa}
+							<li>{alternativa}</li>
+						{/each}
+					</ol>
+				</div>
+				{/each}
+			</div>
 			<br />
 		</div>
 	{/each}
@@ -88,13 +92,18 @@
 		.com-quebra {
 			page-break-after: always;
 		}
-	}
+		
+		/* Colunas para as questões */
+		.questoes {
+			column-count: 2; /* Define 2 colunas */
+			column-gap: 20px; /* Ajuste o espaço entre as colunas */
+		}
 
-	@page {
-		margin: 1cm;
-	}
+		/* Ajustando os itens das colunas para não quebrarem no meio da questão */
+		.coluna {
+			page-break-inside: avoid;
+		}
 
-	@media print {
 		.no-print {
 			display: none !important;
 		}
@@ -168,10 +177,5 @@
 
 	ol {
 		padding-left: 20px;
-	}
-	@media print {
-		.no-print {
-			display: none !important;
-		}
 	}
 </style>
