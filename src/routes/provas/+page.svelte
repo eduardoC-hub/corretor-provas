@@ -9,21 +9,20 @@
 	}
 </script>
 
-
-
 <button onclick={gerarPDF} class="botao-pdf no-print">🖨️ Gerar PDF</button>
 
-
 {#if form}
-	<h2> Provas Geradas: <b>{form.qtdprovas}</b></h2>
+	<div class="no-print">
+		<h2>Provas Geradas: <b>{form.qtdprovas}</b></h2>
+	</div>
 	{#each form.provas as prova, i}
-		<div class="prova" style="page-break-before: always;">
+		<div class="prova {i !== form.provas.length - 1 ? 'com-quebra' : ''}">
 			<div class="cabecalho-box">
 				<table class="cabecalho-tabela">
 					<tbody>
 						<tr>
 							<td><strong>Aluno:</strong></td>
-                            <td><strong>Matéria:</strong></td>
+							<td><strong>Matéria:</strong></td>
 							<td><strong>Data:</strong></td>
 						</tr>
 						<tr>
@@ -31,9 +30,7 @@
 							<td><strong>Série:</strong></td>
 							<td><strong>Nota:</strong></td>
 						</tr>
-						<tr>
-
-						</tr>
+						<tr> </tr>
 					</tbody>
 				</table>
 			</div>
@@ -83,6 +80,26 @@
 {/if}
 
 <style>
+	@page {
+		margin: 1cm; /* você pode ajustar esse valor como quiser */
+	}
+
+	@media print {
+		.com-quebra {
+			page-break-after: always;
+		}
+	}
+
+	@page {
+		margin: 1cm;
+	}
+
+	@media print {
+		.no-print {
+			display: none !important;
+		}
+	}
+
 	.botao-pdf {
 		background-color: #7d9bee;
 		color: white;
@@ -99,11 +116,14 @@
 	}
 
 	.prova {
+		margin: 0px;
 		margin-bottom: 40px;
 		padding: 20px;
-		border: 1px solid #ccc;
+		border: 2px dashed #666;
 		border-radius: 10px;
 		page-break-after: always;
+		page-break-inside: avoid;
+		break-inside: avoid;
 	}
 
 	.cabecalho-box {
@@ -131,7 +151,8 @@
 		margin-bottom: 20px;
 	}
 
-	.gabarito th, .gabarito td {
+	.gabarito th,
+	.gabarito td {
 		padding: 4px;
 		text-align: center;
 		border: 1px solid #000;
@@ -149,8 +170,8 @@
 		padding-left: 20px;
 	}
 	@media print {
-	.no-print {
-		display: none !important;
+		.no-print {
+			display: none !important;
+		}
 	}
-}
 </style>
