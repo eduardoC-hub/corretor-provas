@@ -43,3 +43,5 @@ export const questao_categoria = sqliteTable('questao_categoria', {
     id_categoria: integer('id_categoria').notNull()
         .references(() => categoria.id, { onDelete: 'cascade' }).notNull() // CASCADE ativado
 });
+
+// Criar tabela gabarito

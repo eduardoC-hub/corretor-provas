@@ -12,10 +12,49 @@
 <button onclick={gerarPDF} class="botao-pdf no-print">🖨️ Gerar PDF</button>
 
 {#if form}
-	<div class="no-print">
-		<h2>Provas Geradas: <b>{form.qtdprovas}</b></h2>
-	</div>
 	{#each form.provas as prova, i}
+		<!-- Página de Gabarito - Sempre é inserida antes de cada prova -->
+		<div class="pagina-gabarito">
+			<div class="topo-gabarito">
+				<div class="cabecalho-box">
+					<table class="cabecalho-tabela">
+						<tbody>
+							<tr>
+								<td><strong>Aluno:</strong></td>
+								<td><strong>Matéria:</strong></td>
+								<td><strong>Data:</strong></td>
+							</tr>
+							<tr>
+								<td><strong>Professor(a):</strong></td>
+								<td><strong>Série:</strong></td>
+								<td><strong>Nota:</strong></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="gabarito-livre caixa-gabarito">
+					{#each form.provas[0] as questao, i}
+						<div class="linha-gabarito">
+							<span class="numero">{i + 1}.</span>
+							<span class="letra">A</span><span class="bolinha"></span>
+							<span class="letra">B</span><span class="bolinha"></span>
+							<span class="letra">C</span><span class="bolinha"></span>
+							<span class="letra">D</span><span class="bolinha"></span>
+							<span class="letra">E</span><span class="bolinha"></span>
+						</div>
+					{/each}
+				</div>
+			</div>
+
+			<div class="qr-area">
+				<div class="qr-box-final">
+					<span class="qr-text">QR CODE</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Seção de Questões -->
 		<div class="prova {i !== form.provas.length - 1 ? 'com-quebra' : ''}">
 			<div class="cabecalho-box">
 				<table class="cabecalho-tabela">
@@ -30,36 +69,9 @@
 							<td><strong>Série:</strong></td>
 							<td><strong>Nota:</strong></td>
 						</tr>
-						<tr> </tr>
 					</tbody>
 				</table>
 			</div>
-
-			<h4>Gabarito</h4>
-			<table class="gabarito">
-				<thead>
-					<tr>
-						<th>Nº</th>
-						<th>A</th>
-						<th>B</th>
-						<th>C</th>
-						<th>D</th>
-						<th>E</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each prova as questao, i}
-						<tr>
-							<td>{i + 1}</td>
-							<td><span class="bolinha"></span></td>
-							<td><span class="bolinha"></span></td>
-							<td><span class="bolinha"></span></td>
-							<td><span class="bolinha"></span></td>
-							<td><span class="bolinha"></span></td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
 
 			<div class="questoes">
 				{#each prova as questao, i}
@@ -74,7 +86,6 @@
 					</div>
 				{/each}
 			</div>
-			<br />
 		</div>
 	{/each}
 {/if}
@@ -89,26 +100,12 @@
 	}
 
 	@media print {
-		.com-quebra {
-			page-break-after: always;
-		}
-
-		.questoes {
-			column-count: 2;
-			column-gap: 20px;
-			column-rule: 1px solid #ccc;
-		}
-
-		.coluna {
-			page-break-inside: avoid;
-		}
-
-		.coluna p {
-			text-align: justify;
-		}
-
 		.no-print {
 			display: none !important;
+		}
+
+		.com-quebra {
+			page-break-after: always;
 		}
 	}
 
@@ -125,17 +122,6 @@
 
 	.botao-pdf:hover {
 		background-color: #96d4ec;
-	}
-
-	.prova {
-		margin: 0px;
-		margin-bottom: 40px;
-		padding: 20px;
-		border: 2px dashed #666;
-		border-radius: 10px;
-		page-break-after: always;
-		page-break-inside: avoid;
-		break-inside: avoid;
 	}
 
 	.cabecalho-box {
@@ -156,29 +142,116 @@
 		border: 1px solid #999;
 	}
 
-	.gabarito {
-		width: auto;
-		border-collapse: collapse;
-		font-size: 12px;
-		margin-bottom: 20px;
+	.gabarito-livre {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-top: 20px;
+		font-size: 14px;
 	}
 
-	.gabarito th,
-	.gabarito td {
-		padding: 4px;
-		text-align: center;
-		border: 1px solid #000;
+	.caixa-gabarito {
+		border: 2px solid #333;
+		border-radius: 10px;
+		padding: 15px;
+	}
+
+	.linha-gabarito {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.numero {
+		width: 30px;
+		text-align: right;
+		font-weight: bold;
+	}
+
+	.letra {
+		font-weight: bold;
+		margin-right: 4px;
+		max-width: 100%; /* Impede que as letras ultrapassem o limite central */
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.bolinha {
 		display: inline-block;
-		width: 12px;
-		height: 12px;
-		border: 1px solid black;
+		width: 14px;
+		height: 14px;
+		border: 1.5px solid black;
 		border-radius: 50%;
+		vertical-align: middle;
+	}
+
+	.pagina-gabarito {
+		page-break-after: always;
+		padding: 20px;
+		border: 2px dashed #888;
+		border-radius: 10px;
+		margin-bottom: 40px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 1000px;
+	}
+
+	.qr-area {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+		padding-bottom: 40px;
+	}
+
+	.qr-box-final {
+		width: 280px;
+		height: 280px;
+		border: 3px solid #000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 16px;
+		font-weight: bold;
+		opacity: 0.6;
+	}
+
+	.qr-text {
+		text-align: center;
+	}
+
+	.prova {
+		margin-bottom: 40px;
+		padding: 20px;
+		border: 2px dashed #666;
+		border-radius: 10px;
+		page-break-after: always;
+		break-inside: avoid;
+	}
+
+	.questoes {
+		column-count: 2;
+		column-gap: 20px;
+	}
+
+	.coluna {
+		display: block;
+		margin-bottom: 20px;
+	}
+
+	.questoes {
+		column-rule: 0.5px solid #888;
 	}
 
 	ol {
 		padding-left: 20px;
+	}
+
+	:global(body) {
+		font-family: Arial, sans-serif;
+		font-size: 12pt;
+		line-height: 1.4;
 	}
 </style>
