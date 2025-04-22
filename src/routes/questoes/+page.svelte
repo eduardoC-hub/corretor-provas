@@ -197,8 +197,12 @@
 		border-left: 5px solid #3182ce;
 	}
 
-	.questao-item p {
-		margin: 5px 0;
+	
+		.questao-item p {
+	margin: 5px 0;
+	text-align: justify;
+
+
 	}
 
 	.questao-item ol {

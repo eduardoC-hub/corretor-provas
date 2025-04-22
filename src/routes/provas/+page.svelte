@@ -63,15 +63,15 @@
 
 			<div class="questoes">
 				{#each prova as questao, i}
-				<div class="coluna">
-					<p><strong>Questão {i + 1} </strong></p>
-					<p>{questao.enunciado}</p>
-					<ol type="A">
-						{#each questao.alternativas as alternativa}
-							<li>{alternativa}</li>
-						{/each}
-					</ol>
-				</div>
+					<div class="coluna">
+						<p><strong>Questão {i + 1}</strong></p>
+						<p>{questao.enunciado}</p>
+						<ol type="A">
+							{#each questao.alternativas as alternativa}
+								<li>{alternativa}</li>
+							{/each}
+						</ol>
+					</div>
 				{/each}
 			</div>
 			<br />
@@ -85,23 +85,26 @@
 
 <style>
 	@page {
-		margin: 1cm; /* você pode ajustar esse valor como quiser */
+		margin: 1cm;
 	}
 
 	@media print {
 		.com-quebra {
 			page-break-after: always;
 		}
-		
-		/* Colunas para as questões */
+
 		.questoes {
-			column-count: 2; /* Define 2 colunas */
-			column-gap: 20px; /* Ajuste o espaço entre as colunas */
+			column-count: 2;
+			column-gap: 20px;
+			column-rule: 1px solid #ccc;
 		}
 
-		/* Ajustando os itens das colunas para não quebrarem no meio da questão */
 		.coluna {
 			page-break-inside: avoid;
+		}
+
+		.coluna p {
+			text-align: justify;
 		}
 
 		.no-print {
