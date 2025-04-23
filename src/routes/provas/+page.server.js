@@ -1,3 +1,6 @@
+import { db } from '$lib/server/db/index.js';
+import * as table from '$lib/server/db/schema';
+
 export const actions = {
 	gerarprova: async (event) => {
 		const formData = await event.request.formData();
@@ -6,6 +9,7 @@ export const actions = {
 		const qtdprovas = JSON.parse(qtdprovasString);
 		const questoesescolhidas = JSON.parse(questoesescolhidasString);
 		const provas = [];
+		let respostas = "";
 
 		while (provas.length < qtdprovas) {
 			const copiaQuestoes = structuredClone(questoesescolhidas);
@@ -17,8 +21,23 @@ export const actions = {
 				questao.respostacerta = respostaCorreta;
 				shuffle(questao.alternativas);
 				questao.resposta = questao.alternativas.findIndex((alt) => alt === respostaCorreta);
+				if (questao.resposta === 0) {
+					respostas += "A";
+				} else if (questao.resposta === 1) {
+					respostas += "B";
+				} else if (questao.resposta === 2) {
+					respostas += "C";
+				} else if (questao.resposta === 3) {
+					respostas += "D";
+				} else if (questao.resposta === 4) {
+					respostas += "E";
+				}
 			}
-
+			const [gabarito] = await db.insert(table.gabarito).values({
+				resposta: respostas
+			}).returning();
+			copiaQuestoes.gabarito = gabarito.id;
+			respostas = "";
 			provas.push(copiaQuestoes);
 		}
 

@@ -45,3 +45,8 @@ export const questao_categoria = sqliteTable('questao_categoria', {
 });
 
 // Criar tabela gabarito
+
+export const gabarito = sqliteTable('gabarito', {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    resposta: text('resposta').notNull()
+});

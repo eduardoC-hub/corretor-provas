@@ -1,4 +1,8 @@
 <script>
+	import { ConsoleLogWriter } from 'drizzle-orm';
+	import QRCode from 'qrcode';
+	import { onMount } from 'svelte';
+
 	let { form } = $props();
 
 	let questoesescolhidas = $state([]);
@@ -7,6 +11,15 @@
 	function gerarPDF() {
 		window.print();
 	}
+
+	function gerarQRCode(gabarito) {
+		onMount(async () => {
+			const url = await QRCode.toDataURL({ gabarito });
+			prova.qrcode = url;
+		});
+	}
+	
+	console.log(form);
 </script>
 
 <button onclick={gerarPDF} class="botao-pdf no-print">🖨️ Gerar PDF</button>
@@ -47,11 +60,15 @@
 				</div>
 			</div>
 
-			<div class="qr-area">
-				<div class="qr-box-final">
-					<span class="qr-text">QR CODE</span>
+			{#each form.provas.gabarito as qrcode, i}
+				{console.log(qrcode)}
+				{gerarQRCode(qrcode)}
+				<div class="qr-area">
+					<div class="qr-box-final">
+						<img src={prova.qrcode} alt="QR Code" />
+					</div>
 				</div>
-			</div>
+			{/each}
 		</div>
 
 		<!-- Seção de Questões -->
@@ -216,10 +233,6 @@
 		font-size: 16px;
 		font-weight: bold;
 		opacity: 0.6;
-	}
-
-	.qr-text {
-		text-align: center;
 	}
 
 	.prova {
