@@ -1,32 +1,30 @@
 <script>
-	import { ConsoleLogWriter } from 'drizzle-orm';
 	import QRCode from 'qrcode';
 	import { onMount } from 'svelte';
 
 	let { form } = $props();
 
-	let questoesescolhidas = $state([]);
-	let qtdprovas = $state(0);
-
-	function gerarPDF() {
-		window.print();
+	function indiceParaLetra(indice) {
+		return String.fromCharCode(65 + indice);
 	}
 
-	function gerarQRCode(gabarito) {
-		onMount(async () => {
-			const url = await QRCode.toDataURL({ gabarito });
-			prova.qrcode = url;
-		});
-	}
-	
-	console.log(form);
+	onMount(async () => {
+		if (form?.provas) {
+			await Promise.all(
+				form.provas.map(async (prova) => {
+					const gabarito = prova.map((questao) => (questao.resposta !== undefined ? indiceParaLetra(questao.resposta) : '?'));
+					prova.qrcode = await QRCode.toDataURL(gabarito.join(','), { errorCorrectionLevel: 'L' });
+				})
+			);
+		}
+	});
 </script>
 
-<button onclick={gerarPDF} class="botao-pdf no-print">🖨️ Gerar PDF</button>
+<button onclick={() => window.print()} class="botao-pdf no-print">🖨️ Gerar PDF</button>
 
 {#if form}
 	{#each form.provas as prova, i}
-		<!-- Página de Gabarito - Sempre é inserida antes de cada prova -->
+		<!-- Página de Gabarito -->
 		<div class="pagina-gabarito">
 			<div class="topo-gabarito">
 				<div class="cabecalho-box">
@@ -47,7 +45,7 @@
 				</div>
 
 				<div class="gabarito-livre caixa-gabarito">
-					{#each form.provas[0] as questao, i}
+					{#each prova as questao, i}
 						<div class="linha-gabarito">
 							<span class="numero">{i + 1}.</span>
 							<span class="letra">A</span><span class="bolinha"></span>
@@ -60,18 +58,20 @@
 				</div>
 			</div>
 
-			{#each form.provas.gabarito as qrcode, i}
-				{console.log(qrcode)}
-				{gerarQRCode(qrcode)}
-				<div class="qr-area">
-					<div class="qr-box-final">
-						<img src={prova.qrcode} alt="QR Code" />
-					</div>
+			<div class="qr-area">
+				<div class="qr-box-final">
+					{#if prova.qrcode}
+						<img src={prova.qrcode} alt="QR Code do Gabarito"/>
+						
+					{:else}
+						<p>Gerando QR Code...</p>
+					{/if}
+					{console.log(prova.qrcode)}
 				</div>
-			{/each}
+			</div>
 		</div>
 
-		<!-- Seção de Questões -->
+		<!-- Página de Prova -->
 		<div class="prova {i !== form.provas.length - 1 ? 'com-quebra' : ''}">
 			<div class="cabecalho-box">
 				<table class="cabecalho-tabela">
