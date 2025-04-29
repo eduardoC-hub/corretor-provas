@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db/index.js';
 import * as table from '$lib/server/db/schema';
+import QRCode from 'qrcode';
 
 export const actions = {
 	gerarprova: async (event) => {
@@ -37,7 +38,9 @@ export const actions = {
 				resposta: respostas
 			}).returning();
 			copiaQuestoes.gabarito = gabarito.id;
+			copiaQuestoes.qrcode = await QRCode.toDataURL(respostas, { errorCorrectionLevel: 'H' }, { width: 250});
 			respostas = "";
+
 			provas.push(copiaQuestoes);
 		}
 

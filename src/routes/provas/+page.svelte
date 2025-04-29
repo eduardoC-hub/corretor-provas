@@ -3,21 +3,6 @@
 	import { onMount } from 'svelte';
 
 	let { form } = $props();
-
-	function indiceParaLetra(indice) {
-		return String.fromCharCode(65 + indice);
-	}
-
-	onMount(async () => {
-		if (form?.provas) {
-			await Promise.all(
-				form.provas.map(async (prova) => {
-					const gabarito = prova.map((questao) => (questao.resposta !== undefined ? indiceParaLetra(questao.resposta) : '?'));
-					prova.qrcode = await QRCode.toDataURL(gabarito.join(','), { errorCorrectionLevel: 'L' });
-				})
-			);
-		}
-	});
 </script>
 
 <button onclick={() => window.print()} class="botao-pdf no-print">🖨️ Gerar PDF</button>
@@ -60,13 +45,7 @@
 
 			<div class="qr-area">
 				<div class="qr-box-final">
-					{#if prova.qrcode}
 						<img src={prova.qrcode} alt="QR Code do Gabarito"/>
-						
-					{:else}
-						<p>Gerando QR Code...</p>
-					{/if}
-					{console.log(prova.qrcode)}
 				</div>
 			</div>
 		</div>
@@ -224,8 +203,8 @@
 	}
 
 	.qr-box-final {
-		width: 280px;
-		height: 280px;
+		width: 260px;
+		height: 260px;
 		border: 3px solid #000;
 		display: flex;
 		justify-content: center;
