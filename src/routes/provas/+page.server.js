@@ -7,10 +7,16 @@ export const actions = {
 		const formData = await event.request.formData();
 		const questoesescolhidasString = formData.get('questoesescolhidas');
 		const qtdprovasString = formData.get('qtdprovas');
+		const professor = formData.get('professor');
+		const diaprova = formData.get('diaprova');
+		const unicur = formData.get('unicur');
+		const curso = formData.get('curso');
+		const periodo = formData.get('periodo');
 		const qtdprovas = JSON.parse(qtdprovasString);
 		const questoesescolhidas = JSON.parse(questoesescolhidasString);
 		const provas = [];
 		let respostas = "";
+
 
 		while (provas.length < qtdprovas) {
 			const copiaQuestoes = structuredClone(questoesescolhidas);
@@ -46,7 +52,12 @@ export const actions = {
 
 		return {
 			provas,
-			qtdprovas
+			qtdprovas,
+			professor,
+			unicur,
+			curso,
+			periodo,
+			diaprova
 		};
 	}
 };

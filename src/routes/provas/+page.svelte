@@ -13,20 +13,61 @@
 		<div class="pagina-gabarito">
 			<div class="topo-gabarito">
 				<div class="cabecalho-box">
-					<table class="cabecalho-tabela">
+					<table class="table table-bordered align-middle text-sm" style="table-layout: fixed; width: 100%;">
 						<tbody>
-							<tr>
-								<td><strong>Aluno:</strong></td>
-								<td><strong>Matéria:</strong></td>
-								<td><strong>Data:</strong></td>
-							</tr>
-							<tr>
-								<td><strong>Professor(a):</strong></td>
-								<td><strong>Série:</strong></td>
-								<td><strong>Nota:</strong></td>
-							</tr>
+						  <tr>
+							<td rowspan="2" class="text-center align-middle" style="width: 30%;">
+								<img src="ifms.png" alt="Logo da Escola" style="width: 100px; height: auto;">
+							</td>
+							<td style="width: 70%;">
+							  <strong>Aluno(a):</strong>
+							  <div class="border-bottom" style="height: 1.5em;"></div>
+							</td>
+						  </tr>
+						  <tr>
+							<td>
+							  <div class="row g-2">
+								<div class="col-4">
+								  <strong>Curso: {form.curso}</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+								<div class="col-4">
+								  <strong>Unidade curricular: {form.unicur}</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+								<div class="col-4">
+								  <strong>Professor/a: {form.professor}</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+							  </div>
+							</td>
+						  </tr>
+						  <tr>
+							<td colspan="2">
+							  <div class="row g-2">
+								<div class="col-4">
+								  <strong>Data: {form.diaprova}</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+								<div class="col-4">
+								  <strong>Turma:</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+								<div class="col-4">
+								  <strong>Período: {form.periodo}</strong>
+								  <div class="border-bottom" style="height: 1.5em;"></div>
+								</div>
+							  </div>
+							</td>
+						  </tr>
+						  <tr>
+							<td colspan="2">
+							  <strong>NOTA:</strong>
+							  <div class="border-bottom text-danger fw-bold" style="height: 1.5em; width: 60px;"></div>
+							</td>
+						  </tr>
 						</tbody>
-					</table>
+					  </table>
 				</div>
 
 				<div class="gabarito-livre caixa-gabarito">
@@ -57,11 +98,11 @@
 					<tbody>
 						<tr>
 							<td><strong>Aluno:</strong></td>
-							<td><strong>Matéria:</strong></td>
-							<td><strong>Data:</strong></td>
+							<td><strong>Matéria: {form.materia}</strong></td>
+							<td><strong>Data: {form.diaprova}</strong></td>
 						</tr>
 						<tr>
-							<td><strong>Professor(a):</strong></td>
+							<td><strong>Professor(a): {form.professor}</strong></td>
 							<td><strong>Série:</strong></td>
 							<td><strong>Nota:</strong></td>
 						</tr>
@@ -104,6 +145,17 @@
 			page-break-after: always;
 		}
 	}
+
+	table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+    }
+    td{
+      border: 1px solid #000;
+      padding: 6px;
+      vertical-align: top;
+    }
 
 	.botao-pdf {
 		background-color: #7d9bee;

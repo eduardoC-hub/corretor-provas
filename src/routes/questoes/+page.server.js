@@ -21,16 +21,6 @@ export const actions = {
 
 		const resposta = Number(formData.get('resposta'));
 
-		console.log('Dados recebidos:', {
-			enunciado,
-			alternativa1,
-			alternativa2,
-			alternativa3,
-			alternativa4,
-			alternativa5,
-			resposta
-		});
-
 		try {
 			// Inserindo no banco
 			await db.insert(table.questao).values({
@@ -43,7 +33,6 @@ export const actions = {
 				resposta
 			});
 
-			console.log('Questão salva com sucesso!');
 		} catch (e) {
 			console.error('Erro ao salvar no banco:', e.message);
 			return fail(500, {

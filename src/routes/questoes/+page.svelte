@@ -8,6 +8,13 @@
 	let questoesescolhidas = $state([]);
 	let filtro = $state('');
 	let qtdprovas = $state();
+	let professor = $state();
+	let materia = $state();
+	let diaprova = $state();
+	let unicur = $state();
+	let curso = $state();
+	let periodo = $state();
+
 
 	function confirmarExclusao(event) {
 		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
@@ -27,7 +34,6 @@
 			const sheet = workbook.Sheets[sheetName];
 
 			questoes = XLSX.utils.sheet_to_json(sheet);
-			console.log('Questões carregadas:', questoes);
 		};
 
 		reader.readAsArrayBuffer(selectedFile);
@@ -62,10 +68,8 @@
 	}
 
 	function gerarprovas(){
-		console.log(questoesescolhidas)
 		for (let i = 0; i < qtdprovas; i++){
 			shuffle(questoesescolhidas)
-			console.log(questoesescolhidas)
 		}
 	}
 
@@ -133,11 +137,35 @@
 	<p class="sem-questoes">Nenhuma questão cadastrada.</p>
 {/if}
 
-<form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
-	<input type="hidden" name="questoesescolhidas" value={JSON.stringify(questoesescolhidas)}>
-	<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)}/>
-	<button class="btn btn-primary">Gerar Prova</button>
-</form>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Criação de provas</button>
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Criação de provas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
+			<input type="hidden" name="questoesescolhidas" value={JSON.stringify(questoesescolhidas)}>
+			<input type="text" name="professor" placeholder="Professor(a)" value={JSON.stringify(professor)}/>
+			<input type="text" name="unicur" placeholder="Unidade Curricular" value={JSON.stringify(unicur)}/>
+			<input type="text" name="curso" placeholder="Curso" value={JSON.stringify(curso)}/>
+			Período:
+			<select name="periodo" bind:value={periodo}>
+				<option value="Matutino">Matutino</option>
+				<option value="Vespertino">Vespertino</option>
+				<option value="Noturno">Noturno</option>
+			</select>
+			<input type="date" name="diaprova" placeholder="Data" value={JSON.stringify(diaprova)}/>
+			<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)}/>
+			<button class="btn btn-primary">Gerar Prova</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <h3>Importar Questões</h3>
 <input type="file" accept=".xlsx, .csv" onchange={handleFileUpload} class="form-control my-2" />
