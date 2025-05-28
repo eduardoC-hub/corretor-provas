@@ -11,7 +11,25 @@
 		}
 	}
 </script>
-
+<center>
+<a href="/questoes/questao/salvar" style="
+display: inline-block;
+padding: 8px 16px;
+background-color: #007BFF;
+color: white;
+text-decoration: none;
+border-radius: 4px;
+">Adicionar mais uma questão</a>
+<br><br>
+<a href="/questoes" style="
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Gerar Provas</a>
+</center>
 <div class="container mt-4">
 	<h1 class="mb-3 text-center">Detalhes da Questão</h1>
 

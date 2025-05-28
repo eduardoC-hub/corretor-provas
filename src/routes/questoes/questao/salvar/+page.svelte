@@ -11,6 +11,25 @@
 	}
 </script>
 
+<center>
+	<a href="/" style="
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Voltar</a>
+<br><br>
+<a href="/questoes" style="
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Gerar Provas</a>
+</center>
 <div class="container mt-4">
 	<h1 class="mb-3 text-center">Nova questão</h1>
 

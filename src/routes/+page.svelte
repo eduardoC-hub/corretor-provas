@@ -2,8 +2,29 @@
 <br>
 <h1><center>TCC dos brabos 
 	<li>Arthur, Eduardo, Reinaldo e Pedro</li>
-</center></h1>
+</center></h1> 
+<center>
+<br>
+<a href="/questoes" style="
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Gerar Provas</a>
+<br>
+<br>
+<a href="/questoes/questao/salvar" style=" 
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Salvar Questões</a>
 
+</center>
 <style>
 	h1 {
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

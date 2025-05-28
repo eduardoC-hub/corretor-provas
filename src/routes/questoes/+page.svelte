@@ -89,7 +89,18 @@
   }
 }
 </script>
+<center>
+	<a href="/" style="
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+">Voltar</a>
 
+
+</center>
 <h1>Questões</h1>
 <a class="btn btn-primary" href="/questoes/questao/salvar">Nova Questão</a>
 
