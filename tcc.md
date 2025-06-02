@@ -19,11 +19,9 @@ xlsx
 
 crud de questão (imcompleto-tirar duvidas com o professor)
 
-on delete cascade não é recomendado, depois ver uma alternativa
+Melhorar o pop-up de criacao de provas, colocar uma opcao para determinar a pontuacao da questao.
 
-possibilidade de carregar questões de um arquivo, por exemplo, uma planilha ✔
-
-escrever o texto do TCC ✔
+Suporte para imagens nas questoes.
 
 # importante para criar bd
 DATABASE_URL=file:corretor-provas.db (.env)
