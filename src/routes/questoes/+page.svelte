@@ -90,14 +90,7 @@
 }
 </script>
 <center>
-	<a href="/" style="
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-">Voltar</a>
+
 
 
 </center>
