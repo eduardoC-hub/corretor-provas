@@ -1,5 +1,5 @@
 <script>
-	export let data;
+	let {data}=$props();
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 

@@ -236,7 +236,7 @@
 
 	.pagina-gabarito {
 		page-break-after: always;
-		padding: 20px;
+		
 		border: 2px dashed #888;
 		border-radius: 10px;
 		margin-bottom: 40px;
@@ -268,7 +268,7 @@
 
 	.prova {
 		margin-bottom: 40px;
-		padding: 20px;
+	
 		border: 2px dashed #666;
 		border-radius: 10px;
 		page-break-after: always;

@@ -180,7 +180,7 @@
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		background-color: #f4f6f8;
 		color: #333;
-		padding: 20px;
+		
 	}
 
 	h1 {
