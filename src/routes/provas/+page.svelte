@@ -137,6 +137,7 @@
 	}
 
 	@media print {
+	
 		.no-print {
 			display: none !important;
 		}
@@ -276,6 +277,8 @@
 	}
 
 	.questoes {
+		text-align: justify;
+		padding: 10px;
 		column-count: 2;
 		column-gap: 20px;
 	}

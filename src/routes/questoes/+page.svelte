@@ -177,6 +177,7 @@
 
 <style>
 	:global(body) {
+		
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		background-color: #f4f6f8;
 		color: #333;

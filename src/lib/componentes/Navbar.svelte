@@ -2,18 +2,24 @@
     import { page } from '$app/stores';
   </script>
   
-  <nav class="navbar">
+  <nav class="navbar no-print">
     <div class="logo">Notágil</div>
     <div class="links">
       <a href="/" class:active={$page.url.pathname === '/'}>Início</a>
       <a href="/categorias" class:active={$page.url.pathname.startsWith('/categorias')}>Categorias</a>
-      <a href="/provas" class:active={$page.url.pathname.startsWith('/provas')}>Provas</a>
+      <a href="/provas?/gerarprova" class:active={$page.url.pathname.startsWith('/provas?/gerarprova')}>Provas</a>
       <a href="/questoes" class:active={$page.url.pathname.startsWith('/questoes')}>Questões</a>
       <a href="/demo/lucia" class:active={$page.url.pathname.startsWith('/demo/lucia')}>Login</a>
     </div>
   </nav>
   
   <style>
+   @media print {
+  .no-print {
+    display: none !important;
+  }
+
+   } 
     .navbar {
       display: flex;
       justify-content: space-between;

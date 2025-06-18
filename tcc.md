@@ -23,7 +23,7 @@ Melhorar o pop-up de criacao de provas, colocar uma opcao para determinar a pont
 
 Suporte para imagens nas questoes.
 
-filtrar questoes por categorias.
+filtrar questoes por categorias usar select nas questoes ja cadastradas.
 
 # importante para criar bd
 DATABASE_URL=file:corretor-provas.db (.env)

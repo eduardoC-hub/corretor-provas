@@ -4,6 +4,6 @@
   
   <Navbar />
   
-  <main style="padding: 2rem;">
+  <main style="">
     <slot />
   </main>
