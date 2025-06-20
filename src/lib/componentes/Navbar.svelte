@@ -34,7 +34,9 @@
     .logo {
       font-size: 1.5rem;
       font-weight: bold;
-      color: #38bdf8;
+      background: linear-gradient(90deg, #8998ed, rgb(86, 116, 216));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
     }
   
     .links {

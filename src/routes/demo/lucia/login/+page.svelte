@@ -3,7 +3,7 @@
 	let { form } = $props();
 </script>
 
-<h1 class="titulo">Login / Registro</h1>
+<h1 class="titulo" style="margin-top: 30px;">Login / Registro</h1>
 
 <form method="post" action="?/login" use:enhance class="formulario">
 	<label class="campo">

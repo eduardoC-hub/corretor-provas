@@ -158,11 +158,14 @@
 			<input type="text" name="curso" placeholder="Curso" value={JSON.stringify(curso)}/>
 			Período:
 			<select name="periodo" bind:value={periodo}>
+				<option value="selecionar" >Selecione o período</option>
 				<option value="Matutino">Matutino</option>
 				<option value="Vespertino">Vespertino</option>
 				<option value="Noturno">Noturno</option>
 			</select>
+			Data:
 			<input type="date" name="diaprova" placeholder="Data" value={JSON.stringify(diaprova)}/>
+			<hr>
 			<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)}/>
 			<button class="btn btn-primary">Gerar Prova</button>
 		</form>
@@ -288,20 +291,30 @@
 	input[type="number"] {
 		width: 100%;
 		max-width: 400px;
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 	}
 
 	.form-gerar-prova {
-		background-color: #fff;
-		padding: 20px;
-		border-radius: 8px;
-		margin-top: 30px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-		max-width: 400px;
-	}
+	background-color: #fff;
+	padding: 10px; /* Aumenta o espaço interno */
+	border-radius: 12px;
+	margin-top: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	
+	
+}
+
+	.form-gerar-prova input,
+.form-gerar-prova select {
+	width: 50vh;
+	padding: 12px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	font-size: 1rem;
+}
 
 	.btn.btn-success,
 	button[type="submit"],
@@ -339,4 +352,12 @@
 		color: #9b2c2c;
 		max-width: 400px;
 	}
+	.modal-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	
+}
+
 </style>

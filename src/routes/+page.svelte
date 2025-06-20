@@ -67,7 +67,7 @@
 	</section>
 
 	<!-- Rodapé -->
-	<footer class="text-center text-white py-4" style="background: #4b0082;">
+	<footer class="text-center text-white py-4" style="background: #0000fb;">
 		<p class="mb-0">© 2025 Notágil — Arthur, Eduardo e Reinaldo</p>
 	</footer>
 </div>
@@ -75,13 +75,13 @@
 <style>
 	/* Gradiente de cor no texto */
 	.text-gradient {
-		background: linear-gradient(90deg, #007bff, #6610f2);
+		background: linear-gradient(90deg, #0051ff, rgb(0, 54, 247));
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 	}
 
 	.cabecalho {
-		background: linear-gradient(to right, #007bff, #6f42c1);
+		background: linear-gradient(to right, #007bff, #0000fb);
 	}
 
 	.equipe-card:hover {

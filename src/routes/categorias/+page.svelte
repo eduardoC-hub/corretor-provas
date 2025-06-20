@@ -77,9 +77,9 @@
 		display: flex;
 		gap: 5px; 
 	}
-</style>
+</style>	
 
-<div class="container">
+<div class="container" style="margin-top: 20px;">
 	<h1>Categorias</h1>
 	<div>
 		<input placeholder="Pesquisar" bind:value={busca} oninput={pesquisar} />
