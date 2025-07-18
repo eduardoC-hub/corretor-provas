@@ -295,10 +295,10 @@
 	}
 
 	.form-gerar-prova {
-	background-color: #fff;
+	
 	padding: 10px; /* Aumenta o espaço interno */
 	border-radius: 12px;
-	margin-top: 10px;
+	
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 	display: flex;
 	flex-direction: column;
@@ -309,7 +309,8 @@
 
 	.form-gerar-prova input,
 .form-gerar-prova select {
-	width: 50vh;
+	
+	width: 40vh;
 	padding: 12px;
 	border-radius: 6px;
 	border: 1px solid #ccc;

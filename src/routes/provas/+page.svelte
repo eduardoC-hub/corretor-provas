@@ -93,22 +93,7 @@
 
 		<!-- Página de Prova -->
 		<div class="prova {i !== form.provas.length - 1 ? 'com-quebra' : ''}">
-			<div class="cabecalho-box">
-				<table class="cabecalho-tabela">
-					<tbody>
-						<tr>
-							<td><strong>Aluno:</strong></td>
-							<td><strong>Matéria: {form.materia}</strong></td>
-							<td><strong>Data: {form.diaprova}</strong></td>
-						</tr>
-						<tr>
-							<td><strong>Professor(a): {form.professor}</strong></td>
-							<td><strong>Série:</strong></td>
-							<td><strong>Nota:</strong></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			
 
 			<div class="questoes">
 				{#each prova as questao, i}

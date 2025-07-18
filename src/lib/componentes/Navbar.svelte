@@ -3,13 +3,15 @@
   </script>
   
   <nav class="navbar no-print">
-    <div class="logo">Notágil</div>
+    <div class="logo"><a href="/">Notágil</a></div>
     <div class="links">
-      <a href="/" class:active={$page.url.pathname === '/'}>Início</a>
-      <a href="/categorias" class:active={$page.url.pathname.startsWith('/categorias')}>Categorias</a>
-      <a href="/provas?/gerarprova" class:active={$page.url.pathname.startsWith('/provas?/gerarprova')}>Provas</a>
-      <a href="/questoes" class:active={$page.url.pathname.startsWith('/questoes')}>Questões</a>
-      <a href="/demo/lucia" class:active={$page.url.pathname.startsWith('/demo/lucia')}>Login</a>
+      <a href="/">Início</a>
+      <a href="/categorias">Categorias</a>
+      <a href="/provas?/gerarprova">Provas</a>
+      <a href="/questoes">Questões</a>
+      <a href="/" >🌙</a>
+      <a href="/demo/lucia" >Login</a>
+      
     </div>
   </nav>
   
