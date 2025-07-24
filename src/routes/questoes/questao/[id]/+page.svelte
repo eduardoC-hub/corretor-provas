@@ -11,7 +11,7 @@
 		}
 	}
 </script>
-
+<div style="background-color: #f0f0f0; min-height: 100vh; padding: 20px;">
 <div class="container mt-4">
 	<h1 class="mb-3 text-center">Detalhes da Questão</h1>
 
@@ -49,4 +49,5 @@
 
 
 	</div>
+</div>
 </div>

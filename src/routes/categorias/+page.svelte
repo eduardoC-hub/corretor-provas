@@ -79,45 +79,47 @@
 	}
 </style>	
 
-<div class="container" style="margin-top: 20px;">
-	<h1>Categorias</h1>
-	<div>
-		<input placeholder="Pesquisar" bind:value={busca} oninput={pesquisar} />
+<div style="background-color: #f0f0f0; min-height: 100vh; padding: 20px;">
+	<div class="container" style="margin-top: 20px;">
+		<h1>Categorias</h1>
+		<div>
+			<input placeholder="Pesquisar" bind:value={busca} oninput={pesquisar} />
+		</div>
+		<br />
+		<div>
+			<form method="post" action="?/criar">
+				<input name="nome" placeholder="Nova categoria" />
+				<button>Criar</button>
+			</form>
+		</div>
+		<p style="color: red">{form?.message ?? ''}</p>
+		<br />
+		{#if filtrados.length}
+			<ul>
+				{#each filtrados as categoria}
+					<li>
+						{#if categoria.editando}
+							<form method="post" action="?/editar">
+								<input type="hidden" name="id" value={categoria.id} />
+								<input name="nome" value={categoria.nome} />
+								<button type="submit" class="small-button">Salvar</button>
+								<button type="button" class="small-button" onclick={() => (categoria.editando = false)}>Cancelar</button>
+							</form>
+						{:else}
+							{categoria.nome}
+							<div class="botoes-acoes">
+								<button class="small-button" onclick={() => (categoria.editando = true)}>Editar</button>
+								<form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
+									<input type="hidden" name="id" value={categoria.id} />
+									<button type="submit" class="small-button">Excluir</button>
+								</form>
+							</div>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		{:else}
+			<p>Nenhuma categoria cadastrada.</p>
+		{/if}
 	</div>
-	<br />
-	<div>
-		<form method="post" action="?/criar">
-			<input name="nome" placeholder="Nova categoria" />
-			<button>Criar</button>
-		</form>
-	</div>
-	<p style="color: red">{form?.message ?? ''}</p>
-	<br />
-	{#if filtrados.length}
-	  <ul>
-	    {#each filtrados as categoria}
-	      <li>
-	        {#if categoria.editando}
-	          <form method="post" action="?/editar">
-	            <input type="hidden" name="id" value={categoria.id} />
-	            <input name="nome" value={categoria.nome} />
-	            <button type="submit" class="small-button">Salvar</button>
-	            <button type="button" class="small-button" onclick={() => (categoria.editando = false)}>Cancelar</button>
-	          </form>
-	        {:else}
-	          {categoria.nome}
-	          <div class="botoes-acoes">
-	            <button class="small-button" onclick={() => (categoria.editando = true)}>Editar</button>
-	            <form method="post" action="?/excluir" style="display:inline;" onsubmit={confirmarExclusao}>
-	              <input type="hidden" name="id" value={categoria.id} />
-	              <button type="submit" class="small-button">Excluir</button>
-	            </form>
-	          </div>
-	        {/if}
-	      </li>
-	    {/each}
-	  </ul>
-	{:else}
-	  <p>Nenhuma categoria cadastrada.</p>
-	{/if}
 </div>
