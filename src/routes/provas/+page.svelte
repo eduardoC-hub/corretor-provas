@@ -223,7 +223,7 @@
 	.pagina-gabarito {
 		page-break-after: always;
 		
-		border: 2px dashed #888;
+		
 		border-radius: 10px;
 		margin-bottom: 40px;
 		display: flex;
