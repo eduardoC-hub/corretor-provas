@@ -15,7 +15,6 @@
 	let curso = $state();
 	let periodo = $state();
 
-
 	function confirmarExclusao(event) {
 		if (!confirm('Tem certeza que deseja excluir esta questão?')) {
 			event.preventDefault();
@@ -67,33 +66,27 @@
 		}
 	}
 
-	function gerarprovas(){
-		for (let i = 0; i < qtdprovas; i++){
-			shuffle(questoesescolhidas)
+	function gerarprovas() {
+		for (let i = 0; i < qtdprovas; i++) {
+			shuffle(questoesescolhidas);
 		}
 	}
 
 	function shuffle(array) {
-  let currentIndex = array.length;
+		let currentIndex = array.length;
 
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
+		// While there remain elements to shuffle...
+		while (currentIndex != 0) {
+			// Pick a remaining element...
+			let randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
 
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-}
+			// And swap it with the current element.
+			[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+		}
+	}
 </script>
-<center>
 
-
-
-</center>
 <h1>Questões</h1>
 <a class="btn btn-primary" href="/questoes/questao/salvar">Nova Questão</a>
 
@@ -120,7 +113,7 @@
 				<p><strong>Resposta correta:</strong> {questao.resposta}</p>
 
 				<label>
-					<input type="checkbox" value={questao} bind:group={questoesescolhidas} />
+					<input type="checkbox" class="interruptor" value={questao} bind:group={questoesescolhidas} />
 					Selecionar
 				</label>
 
@@ -144,34 +137,34 @@
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Criação de provas</button>
 
 <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Criação de provas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-		<form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
-			<input type="hidden" name="questoesescolhidas" value={JSON.stringify(questoesescolhidas)}>
-			<input type="text" name="professor" placeholder="Professor(a)" value={JSON.stringify(professor)}/>
-			<input type="text" name="unicur" placeholder="Unidade Curricular" value={JSON.stringify(unicur)}/>
-			<input type="text" name="curso" placeholder="Curso" value={JSON.stringify(curso)}/>
-			Período:
-			<select name="periodo" bind:value={periodo}>
-				<option value="selecionar" >Selecione o período</option>
-				<option value="Matutino">Matutino</option>
-				<option value="Vespertino">Vespertino</option>
-				<option value="Noturno">Noturno</option>
-			</select>
-			Data:
-			<input type="date" name="diaprova" placeholder="Data" value={JSON.stringify(diaprova)}/>
-			<hr>
-			<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)}/>
-			<button class="btn btn-primary">Gerar Prova</button>
-		</form>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Criação de provas</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="/provas?/gerarprova" class="form-gerar-prova">
+					<input type="hidden" name="questoesescolhidas" value={JSON.stringify(questoesescolhidas)} />
+					<input type="text" name="professor" placeholder="Professor(a)" value={JSON.stringify(professor)} />
+					<input type="text" name="unicur" placeholder="Unidade Curricular" value={JSON.stringify(unicur)} />
+					<input type="text" name="curso" placeholder="Curso" value={JSON.stringify(curso)} />
+					Período:
+					<select name="periodo" bind:value={periodo}>
+						<option value="selecionar">Selecione o período</option>
+						<option value="Matutino">Matutino</option>
+						<option value="Vespertino">Vespertino</option>
+						<option value="Noturno">Noturno</option>
+					</select>
+					Data:
+					<input type="date" name="diaprova" placeholder="Data" value={JSON.stringify(diaprova)} />
+					<hr />
+					<input type="number" name="qtdprovas" placeholder="Quantidade de provas" min="0" value={JSON.stringify(qtdprovas)} />
+					<button class="btn btn-primary">Gerar Prova</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <h3>Importar Questões</h3>
@@ -180,13 +173,51 @@
 
 <style>
 	:global(body) {
-		
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		background-color: #f4f6f8;
 		color: #333;
-		
 	}
-
+	.interruptor {
+		position: relative;
+		height: 1.5rem;
+		width: 3rem;
+		cursor: pointer;
+		appearance: none;
+		-webkit-appearance: none;
+		border-radius: 9999px;
+		background-color: rgba(100, 116, 139, 0.377);
+		transition: all 0.5s ease;
+	}
+	.interruptor:checked {
+		background-color: rgba(77, 175, 80, 1);
+	}
+	.interruptor::before {
+		position: absolute;
+		content: "";
+		left: calc(1.5rem - 1.6rem);
+		top: calc(1.5rem - 1.6rem);
+		display: block;
+		height: 1.6rem;
+		width: 1.6rem;
+		cursor: pointer;
+		border: 1px solid rgba(100, 116, 139, 0.527);
+		border-radius: 9999px;
+		background-color: white;
+		box-shadow:
+			0,
+			3px,
+			10px rgba(100, 116, 139, 0.327);
+	}
+	.interruptor:hover::before {
+		box-shadow: 0 0 0px 8px rgba(0, 0, 0, 0.15);
+	}
+	.interruptor:checked:hover::before {
+		box-shadow: 0 0 0px 8px rgba(77, 175, 80, 0.15);
+	}
+	.interruptor:checked::before {
+		transform: translateX(100%);
+		border-color: rgba(77, 175, 80, 1);
+	}
 	h1 {
 		color: #2d3748;
 		margin-bottom: 20px;
@@ -233,12 +264,9 @@
 		border-left: 5px solid #3182ce;
 	}
 
-	
-		.questao-item p {
-	margin: 5px 0;
-	text-align: justify;
-
-
+	.questao-item p {
+		margin: 5px 0;
+		text-align: justify;
 	}
 
 	.questao-item ol {
@@ -287,38 +315,34 @@
 		font-style: italic;
 	}
 
-	input[type="text"],
-	input[type="number"] {
+	input[type='text'],
+	input[type='number'] {
 		width: 100%;
 		max-width: 400px;
 		margin-bottom: 10px;
 	}
 
 	.form-gerar-prova {
-	
-	padding: 10px; /* Aumenta o espaço interno */
-	border-radius: 12px;
-	
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
-	
-	
-}
+		padding: 10px; /* Aumenta o espaço interno */
+		border-radius: 12px;
+
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
 
 	.form-gerar-prova input,
-.form-gerar-prova select {
-	
-	width: 40vh;
-	padding: 12px;
-	border-radius: 6px;
-	border: 1px solid #ccc;
-	font-size: 1rem;
-}
+	.form-gerar-prova select {
+		width: 40vh;
+		padding: 12px;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		font-size: 1rem;
+	}
 
 	.btn.btn-success,
-	button[type="submit"],
+	button[type='submit'],
 	button[onclick] {
 		background-color: #38a169;
 		border: none;
@@ -330,12 +354,12 @@
 	}
 
 	.btn.btn-success:hover,
-	button[type="submit"]:hover,
+	button[type='submit']:hover,
 	button[onclick]:hover {
 		background-color: #2f855a;
 	}
 
-	input[type="file"] {
+	input[type='file'] {
 		margin-bottom: 10px;
 	}
 
@@ -354,11 +378,9 @@
 		max-width: 400px;
 	}
 	.modal-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	
-}
-
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
 </style>
