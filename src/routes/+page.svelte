@@ -31,7 +31,7 @@
 			<h1 class="display-3 fw-bold mb-0">Notágil</h1>
 		</div>
 		<p class="lead mt-3">Um sistema inteligente para gerenciamento de provas</p>
-		<span class="badge bg-light text-dark fs-6 px-3 py-2 mt-3">TCC IFMS - 2025</span>
+		<span class="badge bg-light text-dark fs-6 px-3 py-2 mt-3"> FACITEL IFMS - 2025</span>
 	</section>
 
 	<!-- Sobre o Projeto -->
@@ -55,12 +55,12 @@
 			<h2 class="mb-4 text-gradient">Quem está por trás?</h2>
 			<div class="row justify-content-center g-4">
 				{#each estudantes as e}
-					<div class="col-md-4">
-						<div class="card h-100 border-0 shadow-sm equipe-card">
+					<div class="col-md-3">
+						<div class="card h-10 border-0 shadow-sm equipe-card">
 							<img 
 								src={e.foto} 
 								alt={"Foto de " + e.nome} 
-								class="card-img-top equipe-foto" 
+								class="card-img equipe-foto" 
 								loading="lazy"
 								on:error={setFallback} 
 							/>
