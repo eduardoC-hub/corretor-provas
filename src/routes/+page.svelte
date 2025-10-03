@@ -2,40 +2,43 @@
 	const estudantes = [
 		{
 			nome: 'Arthur',
-			foto: '',
+			foto: 'aleixo.jpeg',
 			descricao: 'Especialista em backend, segurança e organização do banco de dados.'
 		},
 		{
 			nome: 'Eduardo',
-			foto: '',
+			foto: 'eduardo.jpg',
 			descricao: 'Focado em UX/UI, garantindo uma experiência intuitiva para os usuários.'
 		},
 		{
 			nome: 'Reinaldo',
-			foto: '',
+			foto: 'reinaldo.jpeg',
 			descricao: 'Responsável pela integração entre sistemas e lógica das avaliações.'
 		}
 	];
+
+	function setFallback(event) {
+		event.target.src = '/images/placeholder.png';
+		event.target.alt = 'Foto não disponível';
+	}
 </script>
-
-
 
 <div class="pagina-tcc">
 	<!-- Cabeçalho do Projeto -->
 	<section class="cabecalho text-white text-center py-5">
 		<div class="d-flex justify-content-center align-items-center gap-3">
-		  <img src="logo.png" alt="Imagem do projeto" style="height: 80px;" />
-		  <h1 class="display-3 fw-bold mb-0">Notágil</h1>
+			<img src="logo.png" alt="Imagem do projeto" style="height: 80px;" />
+			<h1 class="display-3 fw-bold mb-0">Notágil</h1>
 		</div>
 		<p class="lead mt-3">Um sistema inteligente para gerenciamento de provas</p>
 		<span class="badge bg-light text-dark fs-6 px-3 py-2 mt-3">TCC IFMS - 2025</span>
-	  </section>
-	  
+	</section>
+
 	<!-- Sobre o Projeto -->
 	<section class="container my-5">
 		<div class="row align-items-center g-5">
 			<div class="col-md-6">
-				<img src="logonot.png" alt="Imagem do projeto" class="img-fluid rounded " />
+				<img src="logonot.png" alt="Imagem do projeto" class="img-fluid rounded" />
 			</div>
 			<div class="col-md-6">
 				<h2 class="text-gradient mb-3">O que é o Notágil?</h2>
@@ -54,7 +57,13 @@
 				{#each estudantes as e}
 					<div class="col-md-4">
 						<div class="card h-100 border-0 shadow-sm equipe-card">
-							<img src={e.foto} alt={"Foto de " + e.nome} class="card-img-top equipe-foto" />
+							<img 
+								src={e.foto} 
+								alt={"Foto de " + e.nome} 
+								class="card-img-top equipe-foto" 
+								loading="lazy"
+								on:error={setFallback} 
+							/>
 							<div class="card-body">
 								<h5 class="card-title">{e.nome}</h5>
 								<p class="card-text text-muted">{e.descricao}</p>

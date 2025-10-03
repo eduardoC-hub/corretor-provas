@@ -7,7 +7,6 @@
     <div class="links">
       <a href="/">Início</a>
       <a href="/categorias">Categorias</a>
-      <a href="/provas?/gerarprova">Provas</a>
       <a href="/questoes">Questões</a>
       <a href="/" >🌙</a>
       <a href="/demo/lucia" >Login</a>
